@@ -5,11 +5,64 @@ import car from "../Assets/svg/car.svg";
 import semi from "../Assets/svg/semi.svg";
 import suv from "../Assets/svg/suv.svg";
 import truck from "../Assets/svg/truck.svg";
+import { useEffect, useState, useRef } from "react";
 
 const Vehicles = ({ sidebarState, setSidebarState }) => {
+    const [vehicles, setVehicles] = useState([]);
+    const editVehicle = (vehicle) => {
+        // Here you would open a form modal. For simplicity, I'm using an alert.
+        alert(`Edit vehicle ${vehicle.id}`);
+    };
+const deleteVehicle = (id) => {
+    const token = localStorage.getItem('token'); // Retrieve the token from storage
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,  // Include the token in the Authorization header
+        },
+    };
+
+    fetch(`http://127.0.0.1:8000/vehicles/vehicles/${id}/`, options)
+        .then(response => {
+            if (response.ok) {
+                // Remove the vehicle from the state to update the UI
+                setVehicles(prevVehicles => prevVehicles.filter(vehicle => vehicle.id !== id));
+                alert('Vehicle deleted successfully.');
+            } else {
+                alert('Failed to delete the vehicle.');
+            }
+        })
+        .catch(error => console.error('Error deleting vehicle:', error));
+};
+
+    
+
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/vehicles/vehicles/') // Make sure this URL is correct
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setVehicles(data);
+                } else {
+                    console.error('Data is not an array:', data);
+                    setVehicles([]); // set to empty array if data is not an array
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching vehicles:', error);
+                setVehicles([]); // Ensure vehicles is always an array
+            });
+    }, []);
+
     return (
         <div className="main d-flex min-vh-100 flex-nowrap">
-            <Sidebar activeItem={'vehicles'} sidebarState={sidebarState} setSidebarState={setSidebarState}/>
+            <Sidebar activeItem={'vehicles'} sidebarState={sidebarState} setSidebarState={setSidebarState} />
             <main className="d-flex flex-column flex-grow-1 overflow-y-scroll">
                 <Navbar />
                 <div className="bg-white flex-grow-1">
@@ -80,20 +133,19 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                                 </thead>
                                 <tbody>
                                     {
-                                        (new Array(6)).fill(0).map((_, i) => {
-                                            return <tr key={i}>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td>Text</td>
+                                        vehicles.map(vehicle => (
+                                            <tr key={vehicle.id}>
+                                                <td>{vehicle.id}</td>
+                                                <td>{vehicle.Vtype_display}</td>
+                                                <td>{vehicle.model}</td>
+                                                <td>{vehicle.age}</td>
+                                                <td>{vehicle.status}</td>
                                                 <td className="d-flex gap-3 align-items-center justify-content-center">
-                                                    <a href="" className="text-main text-decoration-none ">Edit</a>
-                                                    <div className="divider"></div>
-                                                    <a href="" className="text-main text-decoration-none ">Delete</a>
+                                                    <button onClick={() => editVehicle(vehicle)} className="btn btn-primary">Edit</button>
+                                                    <button onClick={() => deleteVehicle(vehicle.id)} className="btn btn-danger">Delete</button>
                                                 </td>
                                             </tr>
-                                        })
+                                        ))
                                     }
                                 </tbody>
                             </table>
