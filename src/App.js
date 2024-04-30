@@ -1,18 +1,26 @@
-import './App.css';
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Dashboard from './Dashboard/Dashboard';
 import Audience from './Dashboard/Audience';
 import Vehicles from './Dashboard/Vehicles';
 import Form from './Dashboard/Form';
-
+import Statistics from './Dashboard/Stats';
+//import Login from './Components/Login/Login';
+//import Logout from './Components/Logout/Logout';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [sidebarState, setSidebarState] = useState(true);
- 
-  // Listening for window resize and reset sidebar state
+  const [isAuthenticated, setIsAuthenticated] = useState(process.env.REACT_APP_BYPASS_LOGIN === 'true');
+
   useEffect(() => {
+    if (!isAuthenticated && process.env.REACT_APP_BYPASS_LOGIN !== 'true') {
+      // Check token presence only if not bypassing login
+      const token = localStorage.getItem('userToken');
+      setIsAuthenticated(!!token);
+    }
     const handleResize = () => {
-      if(window.innerWidth <= 950){
+      if (window.innerWidth <= 950) {
         setSidebarState(false);
       }
     };
@@ -26,10 +34,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Audience sidebarState={sidebarState} setSidebarState={setSidebarState}/>} />  {/* Temp */}
-        <Route path="/audience" element={<Audience sidebarState={sidebarState} setSidebarState={setSidebarState} />} />
-        <Route path="/vehicles" element={<Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} />} />
-        <Route path="/form" element={<Form sidebarState={sidebarState} setSidebarState={setSidebarState} />} />
+        <Route path="/Login"></Route>
+        <Route path="/Logout"></Route>
+        <Route path="/dashboard" element={ <Dashboard sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+        <Route path="/audience" element={ <Audience sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+        <Route path="/vehicles" element={<Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+        <Route path="/form" element={ <Form sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+        <Route path="/stats" element={ <Statistics sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
       </Routes>
     </BrowserRouter>
   );

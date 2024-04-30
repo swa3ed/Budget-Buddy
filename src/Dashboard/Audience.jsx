@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import "../css/dashboard.css";
+import "../css/Dashboard.css";
 import { useState } from "react";
 import AddUserModal from "../Modals/AddUser";
 
@@ -127,7 +127,6 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                                 </tbody>
                             </table>
                         </div>
-                        {/* Add Button */}
                         <button className="btn btn-main px-3 py-2 mt-3" onClick={() => setShowAddModal(true)}>New User</button>
                     </div>
                 </div>

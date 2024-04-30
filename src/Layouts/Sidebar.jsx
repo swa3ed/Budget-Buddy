@@ -3,6 +3,9 @@ import avatar from "../Assets/temp/avatar.png";
 import { Link } from "react-router-dom";
 import { useSidebarOutsideAlerter } from "../Hooks/OutsideHook";
 import { useRef } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
+
 
 const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
     const wrapperRef = useRef(null);
@@ -31,14 +34,12 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
                     {/* Sidebar Items */}
                     <ul className="sidebar-items">
                         <li className="sidebar-label">Main</li>
-                        <li className={`sidebar-item ${activeItem === 'dashboard' ? 'active' : ''}`}>
+                        <Link to={'/dashboard'} className={`sidebar-item ${activeItem === 'dashboard' ? 'active' : ''}`}>
                             <span className="sidebar-item-icon">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M10 2.23145C9.23863 2.23145 8.4918 2.44007 7.84064 2.83466L3.67398 5.35966C3.06126 5.73095 2.55462 6.25397 2.20301 6.87819C1.85139 7.50241 1.66668 8.20675 1.66669 8.92318V14.1665C1.66669 15.2716 2.10567 16.3314 2.88708 17.1128C3.66848 17.8942 4.72828 18.3332 5.83335 18.3332H14.1667C15.2718 18.3332 16.3316 17.8942 17.113 17.1128C17.8944 16.3314 18.3334 15.2716 18.3334 14.1665V8.92235C18.3332 8.20608 18.1484 7.50176 17.7968 6.87774C17.4452 6.25372 16.9386 5.73087 16.3261 5.35966L12.1594 2.83466C11.5082 2.44008 10.7614 2.23145 10 2.23145ZM8.70441 4.26003C9.0951 4.02328 9.54319 3.89811 10 3.89811C10.4568 3.89811 10.9049 4.02328 11.2956 4.26003L15.4623 6.78503C15.8298 7.00776 16.1338 7.32147 16.3447 7.69589C16.5557 8.07025 16.6666 8.49266 16.6667 8.92235V14.1665C16.6667 14.8296 16.4033 15.4654 15.9345 15.9343C15.4656 16.4031 14.8297 16.6665 14.1667 16.6665H13.3334V14.1665C13.3334 13.2825 12.9822 12.4346 12.357 11.8095C11.7319 11.1844 10.8841 10.8332 10 10.8332C9.11596 10.8332 8.26812 11.1844 7.643 11.8095C7.01788 12.4346 6.66669 13.2825 6.66669 14.1665V16.6665H5.83335C5.17031 16.6665 4.53443 16.4031 4.06559 15.9343C3.59675 15.4654 3.33335 14.8296 3.33335 14.1665V8.92318C3.33334 8.49332 3.44418 8.07069 3.65515 7.69616C3.86612 7.32163 4.17009 7.00782 4.53773 6.78504L8.70441 4.26003ZM11.1785 12.988C11.4911 13.3006 11.6667 13.7245 11.6667 14.1665V16.6665H8.33335V14.1665C8.33335 13.7245 8.50895 13.3006 8.82151 12.988C9.13407 12.6754 9.55799 12.4999 10 12.4999C10.442 12.4999 10.866 12.6754 11.1785 12.988Z" fill="currentColor"/>
-                                </svg>
+                            <FontAwesomeIcon icon={faHome} />
                             </span>
                             <span className="sidebar-item-label">Dashboard</span>
-                        </li>
+                        </Link>
                         <Link to={'/audience'} className={`sidebar-item ${activeItem === 'audience' ? 'active' : ''}`}>
                             <span className="sidebar-item-icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,7 +47,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
                                 </svg>
                             </span>
                             <span className="sidebar-item-label">Audience</span>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="20" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4.47141 5.52876C4.21107 5.26841 3.78896 5.26841 3.52861 5.52876C3.26826 5.78911 3.26826 6.21122 3.52861 6.47157L7.52861 10.4716C7.78895 10.7319 8.21106 10.7319 8.47141 10.4716L12.4714 6.47157C12.7318 6.21122 12.7318 5.78911 12.4714 5.52876C12.2111 5.26841 11.789 5.26841 11.5286 5.52876L8.00001 9.05735L4.47141 5.52876Z" fill="currentColor"/>
                             </svg>
                         </Link>
@@ -68,15 +69,14 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
                             </span>
                             <span className="sidebar-item-label">Form</span>
                         </Link>
-                        <li className={`sidebar-item ${activeItem === 'statistics' ? 'active' : ''}`}>
+                        <Link to={'/stats'} className={`sidebar-item ${activeItem === 'stats' ? 'active' : ''}`}>
                             <span className="sidebar-item-icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M13 1.6665C12.6464 1.6665 12.3073 1.80698 12.0572 2.05703C11.8072 2.30708 11.6667 2.64622 11.6667 2.99984V6.6665H8.00002C7.6464 6.6665 7.30726 6.80698 7.05721 7.05703C6.80716 7.30708 6.66669 7.64622 6.66669 7.99984V12.4998H3.00002C2.6464 12.4998 2.30726 12.6403 2.05721 12.8904C1.80716 13.1404 1.66669 13.4795 1.66669 13.8332V16.9998C1.66669 17.3535 1.80716 17.6926 2.05721 17.9426C2.30726 18.1927 2.6464 18.3332 3.00002 18.3332H17C17.3536 18.3332 17.6928 18.1927 17.9428 17.9426C18.1929 17.6926 18.3333 17.3535 18.3333 16.9998V2.99984C18.3333 2.64622 18.1929 2.30708 17.9428 2.05703C17.6928 1.80698 17.3536 1.6665 17 1.6665H13ZM8.33335 8.33317H11.6667V16.6665H8.33335V8.33317ZM16.6667 16.6665H13.3334V3.33317H16.6667V16.6665ZM6.66669 14.1665V16.6665H3.33335V14.1665H6.66669Z" fill="currentColor"/>
                                 </svg>
                             </span>
                             <span className="sidebar-item-label">Statistics</span>
-                        </li>
-
+                        </Link>
                         <div className="sidebar-divider"></div>
                         <li className="sidebar-label">Settings</li>
                         <li className={`sidebar-item ${activeItem === 'settings' ? 'active' : ''}`}>

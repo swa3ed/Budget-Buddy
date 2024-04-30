@@ -1,21 +1,50 @@
+import React from 'react';
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
-import "../css/Dashboard.css";
+import Linechart from '../Analytics/Linechart';
+import Piechart from '../Analytics/Piechart';
+import Vehiclecount from '../Analytics/Vehiclecount';
+import ServiceList from '../Analytics/Servicelist';
+import '../css/Dashboard.css';
 import car from "../Assets/svg/car.svg";
 import semi from "../Assets/svg/semi.svg";
 import suv from "../Assets/svg/suv.svg";
 import truck from "../Assets/svg/truck.svg";
 
-const Vehicles = ({ sidebarState, setSidebarState }) => {
-    return (
-        <div className="main d-flex min-vh-100 flex-nowrap">
-            <Sidebar activeItem={'vehicles'} sidebarState={sidebarState} setSidebarState={setSidebarState}/>
-            <main className="d-flex flex-column flex-grow-1 overflow-y-scroll">
-                <Navbar />
-                <div className="bg-white flex-grow-1">
-                    <div className="px-lg-5 py-lg-3 p-2">
-                        {/* States / Data */}
-                        <div className="card border-0 shadow-sm mb-4 rounded-4 p-2">
+const dashboardServices = [
+  {
+    ID: '1',
+    date: '2022-10-01',
+    mainType: 'Oil Change',
+    vehicleId: 'ABC123',
+    status: 'Done'
+  },
+  {
+    ID: 2,
+    date: '2022-10-02',
+    mainType: 'Semi',
+    vehicleId: 'DEF456',
+    status: 'In_process'
+  },
+  {
+    ID: 3,
+    date: '2022-10-03',
+    mainType: 'SUV',
+    vehicleId: 'GHI789',
+    status: 'Not_started'
+  },
+  // Add more objects as needed
+];
+const Dashboard = ({ sidebarState, setSidebarState }) => {
+  return (
+    <div className="main d-flex min-vh-100 flex-nowrap">
+    <Sidebar activeItem={'dashboard'} sidebarState={sidebarState} setSidebarState={setSidebarState}/>
+    <main className="d-flex flex-column flex-grow-1 overflow-y-scroll">
+        <Navbar />
+        <div className="bg-white flex-grow-1">
+            <div className="px-lg-5 py-lg-3 p-2">
+                                      {/* States / Data */}
+                                      <div className="card border-0 shadow-sm mb-4 rounded-4 p-2">
                             <div className="card-body">
                                 <div className="row justify-content-around flex-wrap">
                                     <div className="col-lg-3">
@@ -65,44 +94,32 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                                 </div>
                             </div>
                         </div>
-                        {/* Table */}
-                        <div className="table-responsive">
-                            <table className="table table-main table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Vehicle ID</th>
-                                        <th>Type</th>
-                                        <th>Model</th>
-                                        <th>Age</th>
-                                        <th>Status</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        (new Array(6)).fill(0).map((_, i) => {
-                                            return <tr key={i}>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td>Text</td>
-                                                <td className="d-flex gap-3 align-items-center justify-content-center">
-                                                    <a href="" className="text-main text-decoration-none ">Edit</a>
-                                                    <div className="divider"></div>
-                                                    <a href="" className="text-main text-decoration-none ">Delete</a>
-                                                </td>
-                                            </tr>
-                                        })
-                                    }
-                                </tbody>
-                            </table>
+                        {/*Analytics*/}
+                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <div style={{ width: '65%', marginTop: '33px' }}>
+                        <Linechart />
                         </div>
-                    </div>
-                </div>
-            </main>
+                        <div style={{ width: '30%', marginTop: '33px' }}>
+                            <Piechart />
+                        </div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <div style={{ width:'65%', marginTop: '33px', marginRight:'30px' }}>
+                            <ServiceList services={dashboardServices} label="Service & Maintenance" />
+                        </div>
+                        <div style={{ display:'flex' , marginTop: '33px'}}>
+                            <Vehiclecount />
+                        </div>
+                        </div>
+                        
+            </div>
         </div>
-    );
-}
+    </main>
+  </div>
+  );
+};
 
-export default Vehicles
+
+
+
+export default Dashboard;
