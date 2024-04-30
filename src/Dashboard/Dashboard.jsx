@@ -5,7 +5,7 @@ import Linechart from '../Analytics/Linechart';
 import Piechart from '../Analytics/Piechart';
 import Vehiclecount from '../Analytics/Vehiclecount';
 import ServiceList from '../Analytics/Servicelist';
-import '../css/Dashboard.css';
+import '../css/dashboard.css';
 import car from "../Assets/svg/car.svg";
 import semi from "../Assets/svg/semi.svg";
 import suv from "../Assets/svg/suv.svg";

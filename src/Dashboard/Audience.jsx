@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import "../css/Dashboard.css";
+import "../css/dashboard.css";
 import { useState } from "react";
 import AddUserModal from "../Modals/AddUser";
 

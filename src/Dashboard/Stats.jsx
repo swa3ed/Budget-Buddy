@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
-import '../css/Dashboard.css';
+import '../css/dashboard.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const position = [33.533320677859734, -5.122345938054433]; // Replace with your desired coordinates

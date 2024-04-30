@@ -1,6 +1,6 @@
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
-import "../css/Dashboard.css";
+import "../css/dashboard.css";
 import car from "../Assets/svg/car.svg";
 import semi from "../Assets/svg/semi.svg";
 import suv from "../Assets/svg/suv.svg";

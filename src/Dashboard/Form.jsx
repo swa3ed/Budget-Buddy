@@ -1,6 +1,6 @@
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
-import '../css/Dashboard.css';
+import '../css/dashboard.css';
 
 const Form = ({ sidebarState, setSidebarState }) => {
     return (
