@@ -1,0 +1,52 @@
+.divider{
+    height: 15px;
+    width: 2px;
+    /* margin: auto; */
+    /* border: 2px solid var(--main); */
+    background-color: var(--main);
+}
+/* Forms */
+.form{
+    width: 48%;
+    height: 100%;
+}
+.form-divider{
+    height: 80%;
+    width: 5px;
+    background-color: #1B4332;
+    /* margin: auto; */
+    align-self: center;
+    border-radius: 5px;
+}
+.piechart-container,
+.vehiclecount-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: calc(50% - 10px);
+  height: auto;
+}
+
+.service-list-container {
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+/* Responsive */
+@media (max-width: 767px) {
+    .form {
+      width: 95%;
+      height: fit-content;
+    }
+    .form-divider {
+      display: none;
+    }
+    .w-sm-full {
+      width: 100% !important;
+    }
+    .piechart-container,
+    .vehiclecount-container {
+      width: 100%; 
+    }
+}  

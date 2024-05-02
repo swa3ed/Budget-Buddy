@@ -1,19 +1,19 @@
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+/*import $ from 'jquery'; 
+import Popper from 'popper.js';*/
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
-import Login from './pages/Login';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
-    <Login />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <App />
+  </React.StrictMode>
 );
-
-// Unregister the service worker (optional)
-serviceWorkerRegistration.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
