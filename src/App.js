@@ -25,7 +25,6 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Sidebar />
             <Routes>
                 <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
                 <Route path="/logout" element={<Logout handleLogout={handleLogout} />} />
