@@ -13,7 +13,7 @@ const Login = () => {
         try {
             const response = await login(admin, password);
             if (response) {
-                localStorage.setItem('userToken', response.token);
+                localStorage.setItem('userToken', response);
                 setRedirectToDashboard(true);
             } else {
                 console.error('Authentication failed');

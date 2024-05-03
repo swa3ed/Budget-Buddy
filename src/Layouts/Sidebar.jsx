@@ -5,14 +5,27 @@ import { useSidebarOutsideAlerter } from "../Hooks/OutsideHook";
 import { useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
 
 
-const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
+const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated,handleLogout }) => {
     const wrapperRef = useRef(null);
     useSidebarOutsideAlerter(wrapperRef, setSidebarState);
+    const navigate = useNavigate();
+
+    const Logout = () => {
+        localStorage.removeItem('userToken');
+        if (typeof setIsAuthenticated === 'function') {
+            setIsAuthenticated(false);
+        } else {
+            console.error("setIsAuthenticated is not a function");
+        }
+        navigate('/login');
+    }
+    
 
     return (
-        <aside className={`sidebar ${sidebarState ? 'show' : ''}`} ref={wrapperRef}>
+        <aside className={`sidebar 'show' }`} ref={wrapperRef}>
             <div className="sidebar-content d-flex flex-column justify-content-between ">
                 <div className="">
                     {/* Profile */}
@@ -24,17 +37,13 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
                                 <h6 className="mb-0 text-sm">Admin@example.com</h6>
                             </div>
                         </div>
-                        <button className="btn btn-light btn-sm btn-sidebar-toggler" onClick={() => setSidebarState(!sidebarState)}>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10.4714 4.47157C10.7317 4.21122 10.7317 3.78911 10.4714 3.52876C10.211 3.26841 9.78893 3.26841 9.52859 3.52876L5.52859 7.52876C5.26824 7.78911 5.26824 8.21122 5.52859 8.47157L9.52859 12.4716C9.78893 12.7319 10.211 12.7319 10.4714 12.4716C10.7317 12.2112 10.7317 11.7891 10.4714 11.5288L6.9428 8.00016L10.4714 4.47157Z" fill="black"/>
-                            </svg>
-                        </button>
+                    
                     </div>
                     <div className="sidebar-divider"></div>
                     {/* Sidebar Items */}
                     <ul className="sidebar-items">
                         <li className="sidebar-label">Main</li>
-                        <Link to={'/dashboard'} className={`sidebar-item ${activeItem === 'dashboard' ? 'active' : ''}`}>
+                        <Link to={'/'} className={`sidebar-item ${activeItem === 'dashboard' ? 'active' : ''}`}>
                             <span className="sidebar-item-icon">
                             <FontAwesomeIcon icon={faHome} />
                             </span>
@@ -120,7 +129,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState }) => {
                             </span>
                             <span className="sidebar-item-label">Help</span>
                         </li>
-                        <li className="sidebar-item">
+                        <li className="sidebar-item" onClick={Logout} style={{cursor: 'pointer'}}>
                             <span className="sidebar-item-icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M5.83331 1.6665C5.17027 1.6665 4.53439 1.9299 4.06555 2.39874C3.5967 2.86758 3.33331 3.50346 3.33331 4.1665V15.8332C3.33331 16.4962 3.59671 17.1321 4.06555 17.6009C4.53439 18.0698 5.17027 18.3332 5.83331 18.3332H14.1666C14.8297 18.3332 15.4656 18.0698 15.9344 17.6009C16.4033 17.1321 16.6666 16.4962 16.6666 15.8332V14.9998C16.6666 14.5396 16.2936 14.1665 15.8333 14.1665C15.3731 14.1665 15 14.5396 15 14.9998V15.8332C15 16.0542 14.9122 16.2661 14.7559 16.4224C14.5996 16.5787 14.3877 16.6665 14.1666 16.6665H5.83331C5.6123 16.6665 5.40034 16.5787 5.24406 16.4224C5.08778 16.2661 4.99998 16.0542 4.99998 15.8332V4.1665C4.99998 3.94549 5.08778 3.73353 5.24406 3.57725C5.40034 3.42097 5.6123 3.33317 5.83331 3.33317H14.1666C14.3877 3.33317 14.5996 3.42097 14.7559 3.57725C14.9122 3.73353 15 3.94549 15 4.1665V4.99984C15 5.46007 15.3731 5.83317 15.8333 5.83317C16.2936 5.83317 16.6666 5.46007 16.6666 4.99984V4.1665C16.6666 3.50346 16.4033 2.86758 15.9344 2.39874C15.4656 1.9299 14.8297 1.6665 14.1666 1.6665H5.83331Z" fill="#D55F5A"/>
