@@ -9,6 +9,22 @@ import { useState } from "react";
 import AddVehicles from "../Modals/AddVehicles";
 
 const Vehicles = ({ sidebarState, setSidebarState }) => {
+<<<<<<< Updated upstream:fleetmanagementclient/src/Dashboard/Vehicles.jsx
+=======
+    const [vehicles, setVehicles] = useState([]);
+    const editVehicle = (vehicle) => {
+        // Here you would open a form modal. For simplicity, I'm using an alert.
+        alert(`Edit vehicle ${vehicle.id}`);
+    };
+    const deleteVehicle = (id) => {
+    const token = localStorage.getItem('token'); // Retrieve the token from storage
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,  // Include the token in the Authorization header
+        },
+    };
+>>>>>>> Stashed changes:src/Dashboard/Vehicles.jsx
 
     const [showAddModal, setShowAddModal] = useState(false);
 

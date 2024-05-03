@@ -10,6 +10,8 @@ const Audience = ({ sidebarState, setSidebarState }) => {
 
     const [showAddModal, setShowAddModal] = useState(false);
 
+    
+    
     return (
         <div className="main d-flex min-vh-100 flex-nowrap">
             <Sidebar activeItem={'audience'} sidebarState={sidebarState} setSidebarState={setSidebarState}/>
