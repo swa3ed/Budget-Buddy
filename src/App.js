@@ -5,45 +5,40 @@ import Audience from './Dashboard/Audience';
 import Vehicles from './Dashboard/Vehicles';
 import Form from './Dashboard/Form';
 import Statistics from './Dashboard/Stats';
-//import Login from './Components/Login/Login';
-//import Logout from './Components/Logout/Logout';
+import Login from './Components/Login/Login';
+import Logout from './Components/Logout/Logout';
+import PrivateRoute from './PrivateRoute';
+import useResize from './useResize';
 import 'leaflet/dist/leaflet.css';
 
 function App() {
-  const [sidebarState, setSidebarState] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(process.env.REACT_APP_BYPASS_LOGIN === 'true');
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('userToken'));
+    const [sidebarState, setSidebarState] = useResize();
 
-  useEffect(() => {
-    if (!isAuthenticated && process.env.REACT_APP_BYPASS_LOGIN !== 'true') {
-      // Check token presence only if not bypassing login
-      const token = localStorage.getItem('userToken');
-      setIsAuthenticated(!!token);
-    }
-    const handleResize = () => {
-      if (window.innerWidth <= 950) {
-        setSidebarState(false);
-      }
+    const handleLogout = () => {
+        localStorage.removeItem('userToken');
+        setIsAuthenticated(false);
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/Login"></Route>
-        <Route path="/Logout"></Route>
-        <Route path="/dashboard" element={ <Dashboard sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
-        <Route path="/audience" element={ <Audience sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
-        <Route path="/vehicles" element={<Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
-        <Route path="/form" element={ <Form sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
-        <Route path="/stats" element={ <Statistics sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
-      </Routes>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            {isAuthenticated ? (
+                <Routes>
+                    <Route path="/" element={<PrivateRoute><Dashboard sidebarState={sidebarState} setSidebarState={setSidebarState} /></PrivateRoute>} />
+                    <Route path="/audience" element={<PrivateRoute><Audience sidebarState={sidebarState} setSidebarState={setSidebarState} /></PrivateRoute>} />
+                    <Route path="/vehicles" element={<PrivateRoute><Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} /></PrivateRoute>} />
+                    <Route path="/form" element={<PrivateRoute><Form sidebarState={sidebarState} setSidebarState={setSidebarState} /></PrivateRoute>} />
+                    <Route path="/stats" element={<PrivateRoute><Statistics sidebarState={sidebarState} setSidebarState={setSidebarState} /></PrivateRoute>} />
+                    <Route path="/logout" element={<Logout handleLogout={handleLogout} />} />
+                </Routes>
+            ) : (
+                <Routes>
+                    <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+                    <Route path="*" element={<Navigate to="/login" />} />
+                </Routes>
+            )}
+        </BrowserRouter>
+    );
 }
 
 export default App;

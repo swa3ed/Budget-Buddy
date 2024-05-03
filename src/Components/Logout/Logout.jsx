@@ -8,7 +8,7 @@ const LogoutButton = () => {
     // TODO: Invalidate the session on the server, if necessary
 
     // Remove the token or user session from local storage or cookies
-    localStorage.removeItem('token'); // If you're using localStorage
+    localStorage.removeItem('userToken'); // If you're using localStorage
     // Or if using cookies, remove the cookie that holds the token
     // document.cookie = "token=; max-age=0"; // Example for cookies
 
