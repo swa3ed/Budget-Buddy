@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard/Dashboard';
@@ -29,27 +27,27 @@ function App() {
                 <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
                 <Route path="/logout" element={<Logout handleLogout={handleLogout} />} />
                 <Route path="/" element={
-                    <PrivateRoute>
+                    <PrivateRoute allowedRoles={['admin', 'manager', 'fleet_manager']}>
                         <Dashboard sidebarState={sidebarState} setSidebarState={setSidebarState} />
                     </PrivateRoute>
                 } />
                 <Route path="/audience" element={
-                    <PrivateRoute>
+                    <PrivateRoute allowedRoles={['admin', 'manager']}>
                         <Audience sidebarState={sidebarState} setSidebarState={setSidebarState} />
                     </PrivateRoute>
                 } />
                 <Route path="/vehicles" element={
-                    <PrivateRoute>
-                        <Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState}  />
+                    <PrivateRoute allowedRoles={['admin', 'fleet_manager']}>
+                        <Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} />
                     </PrivateRoute>
                 } />
                 <Route path="/form" element={
-                    <PrivateRoute>
+                    <PrivateRoute allowedRoles={['admin', 'manager']}>
                         <Form sidebarState={sidebarState} setSidebarState={setSidebarState} setIsAuthenticated={setIsAuthenticated} />
                     </PrivateRoute>
                 } />
                 <Route path="/stats" element={
-                    <PrivateRoute>
+                    <PrivateRoute allowedRoles={['admin']}>
                         <Statistics sidebarState={sidebarState} setSidebarState={setSidebarState} />
                     </PrivateRoute>
                 } />
