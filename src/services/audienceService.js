@@ -24,6 +24,7 @@ export const deleteAudience = async (id) => {
 };
 
 export const addAudience = async (userData) => {
+    
     try {
         const response = await axios.post(`${API_BASE_URL}/users/users/`, userData);
         return response.data;  // Assuming the server returns the added user data

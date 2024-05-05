@@ -5,12 +5,20 @@ import Sidebar from "../Layouts/Sidebar";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "../css/dashboard.css";
 import AddUserModal from "../Modals/AddUser";
-import { fetchAudiences, deleteAudience,updateUser,addAudience } from "../services/audienceService";
+import {
+  fetchAudiences,
+  deleteAudience,
+  updateUser,
+  addAudience,
+} from "../services/audienceService";
 
 const Audience = ({ sidebarState, setSidebarState }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [audiences, setAudiences] = useState([]);
   const [editAudienceId, setEditAudienceId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+
   const [editFormData, setEditFormData] = useState({
     id: "",
     email: "",
@@ -18,6 +26,26 @@ const Audience = ({ sidebarState, setSidebarState }) => {
     last_name: "",
     role: "",
   });
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleRoleChange = (event) => {
+    console.log("Role selected:", event.target.value); // Debugging log
+    setSelectedRole(event.target.value);
+  };
+  
+
+  const filteredAudiences = audiences.filter(user => {
+    const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+    const matchesName = fullName.includes(searchTerm.toLowerCase());
+    const matchesRole = selectedRole === '' || user.role === selectedRole;
+    console.log(`Checking role: user's role='${user.role}', selected='${selectedRole}', matches=${matchesRole}`);
+    return matchesName && matchesRole;
+  });
+  
+  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -38,7 +66,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
       const updatedData = await updateUser(editFormData.id, editFormData);
       if (updatedData) {
         const updatedAudiences = audiences.map((user) =>
-        user.id === updatedData.id ? updatedData : user
+          user.id === updatedData.id ? updatedData : user
         );
         setAudiences(updatedAudiences);
         setEditAudienceId(null);
@@ -54,15 +82,12 @@ const Audience = ({ sidebarState, setSidebarState }) => {
     }
   };
 
-
   const handleDeleteAudience = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       const success = await deleteAudience(id);
 
       if (success) {
-        setAudiences((prevUsers) =>
-          prevUsers.filter((user) => user.id !== id)
-        );
+        setAudiences((prevUsers) => prevUsers.filter((user) => user.id !== id));
         alert("Vehicle deleted successfully.");
       } else {
         alert("Failed to delete the vehicle.");
@@ -75,6 +100,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
       try {
         const data = await fetchAudiences();
         if (Array.isArray(data)) {
+          console.log("Roles loaded:", Array.from(new Set(data.map(user => user.role))));
           setAudiences(data);
         } else {
           console.error("Data is not an array:", data);
@@ -87,6 +113,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
     };
     loadAudiences();
   }, []);
+  
 
   return (
     <div className="main d-flex min-vh-100 flex-nowrap">
@@ -108,15 +135,17 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                   name="search"
                   id="search-input"
                   placeholder="Search"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
                 />
               </div>
               <div className="col-md-2">
                 <select
                   className="form-select px-4 bg-light fw-semibold rounded-start-0 rounded-end-0"
-                  name="roles"
-                  id="role-select"
+                  value={selectedRole}
+                  onChange={handleRoleChange}
                 >
-                  <option selected>Role</option>
+                  <option value="">All Role</option>
                   <option value="Admin">Admin</option>
                   <option value="User">User</option>
                   <option value="Manager">Manager</option>
@@ -143,7 +172,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {audiences.map((user) => (
+                  {filteredAudiences.map((user) => (
                     <tr key={user.id}>
                       <td>{user.id}</td>
                       {editAudienceId === user.id ? (
@@ -190,7 +219,12 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                         </>
                       )}
                       <td className="d-flex gap-3 align-items-center justify-content-center">
-                      <button onClick={handleSaveClick} className="btn btn-success">Save</button>
+                        <button
+                          onClick={handleSaveClick}
+                          className="btn btn-success"
+                        >
+                          Save
+                        </button>
 
                         <button
                           onClick={() => handleEditClick(user)}
