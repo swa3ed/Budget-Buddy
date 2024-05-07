@@ -19,7 +19,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
 
   const [editFormData, setEditFormData] = useState({
     id: "",
-    Vtype_display: "",
+    transport: "",
     model: "",
     age: "",
     status: "",
@@ -189,8 +189,8 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                           <td>
                             <input
                               type="text"
-                              name="Vtype_display"
-                              value={editFormData.Vtype_display}
+                              name="transport"
+                              value={editFormData.transport}
                               onChange={handleInputChange}
                             />
                           </td>
@@ -221,7 +221,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         </>
                       ) : (
                         <>
-                          <td>{vehicle.Vtype_display}</td>
+                          <td>{vehicle.transport}</td>
                           <td>{vehicle.model}</td>
                           <td>{vehicle.age}</td>
                           <td>{vehicle.status}</td>

@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { addAudience } from '../services/audienceService';
 
 const AddUserModal = ({ show, onHide, setAudiences }) => {
-    const [formValues, setFormValues] = useState({
+    const [formData, setformData] = useState({
         firstName: '',
         lastName: '',
         phone: '',
@@ -13,7 +13,7 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setFormValues(prev => ({
+        setformData(prev => ({
             ...prev,
             [name]: value
         }));
@@ -22,14 +22,16 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
     const handleAddUser = async () => {
         try {
             const userData = {
-                ...formValues,
-                // Assume your backend expects a username field, adjust as needed
-                username: formValues.firstName + formValues.lastName,
-                email: formValues.email, // Make sure to add an email input or handle it appropriately
+                ...formData,
+                username: formData.firstName + formData.lastName,  // Example if needed
+                email: formData.email  // Ensure this input is included if it's needed
             };
             const newUser = await addAudience(userData);
-            setAudiences(audiences => [...audiences, newUser]);
-            onHide(); // Close the modal
+            if (newUser) {
+                setAudiences(audiences => [...audiences, newUser]);
+                onHide();  // Close the modal
+                alert('User added successfully.');
+            }
         } catch (error) {
             console.error('Failed to add user:', error);
             alert('Failed to add user.');
@@ -46,25 +48,25 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>First Name</label>
-                            <input type="text" className="form-control" name="firstName" value={formValues.firstName} onChange={handleInputChange} placeholder="First Name" />
+                            <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First Name" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Last Name</label>
-                            <input type="text" className="form-control" name="lastName" value={formValues.lastName} onChange={handleInputChange} placeholder="Last Name" />
+                            <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last Name" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Phone Number</label>
-                            <input type="text" className="form-control" name="phone" value={formValues.phone} onChange={handleInputChange} placeholder="Phone" />
+                            <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Phone" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Status Choice</label>
-                            <select className="form-control" name="status" value={formValues.status} onChange={handleInputChange}>
+                            <select className="form-control" name="status" value={formData.status} onChange={handleInputChange}>
                                 <option value="">Select</option>
                                 <option value="On Going">On Going</option>
                                 <option value="Arrived">Arrived</option>
@@ -78,7 +80,7 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
                     <div className="col-md-12">
                         <div className="form-group">
                             <label>Role</label>
-                            <input type="text" className="form-control" name="role" value={formValues.role} onChange={handleInputChange} placeholder="Role" />
+                            <input type="text" className="form-control" name="role" value={formData.role} onChange={handleInputChange} placeholder="Role" />
                         </div>
                     </div>
                 </div>
