@@ -1,30 +1,30 @@
 import Modal from 'react-bootstrap/Modal';
 
 
-const AddUserModal = ({ show, onHide, hide }) => {
+const AddVehicles = ({ show, onHide, hide }) => {
     return <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='lg' >
             <Modal.Header className='border-0' closeButton>
-                <Modal.Title className='text-sm fw-bold'>Add new user</Modal.Title>
+                <Modal.Title className='text-sm fw-bold'>Add new vehicle</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
                 <div className="row row-gap-3">
                     <div className="col-md-6">
                         <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">First Name</label>
-                            <input type="text" class="form-control" name="fname" id="fname-input" placeholder="First Name" />
+                            <label for="" class="form-label fw-semibold text-sm">Vehicle ID</label>
+                            <input type="text" class="form-control" name="fname" id="fname-input" placeholder=" " />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Last Name</label>
-                            <input type="text" class="form-control" name="lname" id="lname-input" placeholder="Last Name" />
+                            <label for="" class="form-label fw-semibold text-sm">Age</label>
+                            <input type="text" class="form-control" name="lname" id="lname-input" placeholder=" " />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Phone Number</label>
-                            <input type="text" class="form-control" name="phone" id="phone-input" placeholder="Phone" />
+                            <label for="" class="form-label fw-semibold text-sm">Type</label>
+                            <input type="text" class="form-control" name="phone" id="phone-input" placeholder=" " />
                         </div>
                     </div>
                     <div className="col-md-6">
@@ -41,10 +41,10 @@ const AddUserModal = ({ show, onHide, hide }) => {
                             </select>
                         </div>
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-6">
                         <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Roles</label>
-                            <input type="text" class="form-control" name="role" id="role-input" placeholder="Roles" />
+                            <label for="" class="form-label fw-semibold text-sm">Model</label>
+                            <input type="text" class="form-control" name="role" id="role-input" placeholder=" " />
                         </div>
                     </div>
                 </div>
@@ -59,4 +59,4 @@ const AddUserModal = ({ show, onHide, hide }) => {
     </Modal>
 }
 
-export default AddUserModal;
+export default AddVehicles;
