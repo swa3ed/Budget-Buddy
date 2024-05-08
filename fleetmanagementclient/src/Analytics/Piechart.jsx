@@ -4,10 +4,10 @@ import 'chart.js/auto';
 
 const Piechart = () => {
   const data = {
-    labels: ['Voitures', 'Semi', 'SUVs'],
+    labels: ['Cars', 'Trucks', 'SUVs'],
     datasets: [
       {
-        label: 'Pourcentage Utilisation De Vehicules',
+        label: 'Pourcentage Usage Des Vehicules',
         data: [40, 38, 22], // These should be your data points
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
@@ -33,7 +33,7 @@ const Piechart = () => {
       },
       title: {
         display: true,
-        text: 'Pourcentage Utilisation De Vehicules',
+        text: 'Pourcentage Usage Des Vehicules',
       },
     },
   }

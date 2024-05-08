@@ -17,7 +17,7 @@ const ServiceList = ({ services, label }) => {
             <th>ID</th>
             <th>Date</th>
             <th>Service</th>
-            <th> ID Vehicule </th>
+            <th>Vehicule ID</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -26,8 +26,8 @@ const ServiceList = ({ services, label }) => {
             <tr key={service.id}>
                 <td>{service.id}</td>
               <td>{service.date}</td>
-              <td>{service.maintenance}</td>
-              <td>{service.idvehicule}</td>
+              <td>{service.typeofmaintenance}</td>
+              <td>{service.vehicleid}</td>
               <td className={statusStyles[service.status]}>{service.status}</td>
             </tr>
           ))}

@@ -6,7 +6,7 @@ const data = {
   labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Jui', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'], // X-axis labels
   datasets: [
     {
-      label: 'Distance Parcourue Par Les Camions',
+      label: 'Distance Parcourue par Les Camions',
       data: [200, 300, 250, 400, 497, 350], // Data points for Y-axis
       fill: true,
       backgroundColor: 'rgba(75,192,192,0.2)',
