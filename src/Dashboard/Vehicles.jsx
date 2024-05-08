@@ -172,7 +172,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
               <table className="table table-main table-hover">
                 <thead>
                   <tr>
-                    <th>Vehicle ID</th>
+                    <th>Voiture ID</th>
                     <th>Type</th>
                     <th>Model</th>
                     <th>Age</th>
@@ -228,19 +228,19 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         </>
                       )}
                       <td className="d-flex gap-3 align-items-center justify-content-center">
-                      <button onClick={handleSaveClick} className="btn btn-success">Save</button>
+                      <button onClick={handleSaveClick} className="btn btn-success">Enregistrer</button>
 
                         <button
                           onClick={() => handleEditClick(vehicle)}
                           className="btn btn-primary"
                         >
-                          Edit
+                          Modifier
                         </button>
                         <button
                           onClick={() => handleDeleteVehicle(vehicle.id)}
                           className="btn btn-danger"
                         >
-                          Delete
+                          Supprimer
                         </button>
                       </td>
                     </tr>

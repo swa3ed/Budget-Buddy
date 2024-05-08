@@ -3,55 +3,54 @@ import Modal from 'react-bootstrap/Modal';
 import { addAudience } from '../services/audienceService';
 
 const AddUserModal = ({ show, onHide, setAudiences }) => {
-    const [formData, setformData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',  // Added email to form data
+    const [formData, setFormData] = useState({
+        prenom: '',
+        nom: '',
+        email: '',  // Ajout de l'e-mail aux données du formulaire
         role: '',
-        status: '',
-        username:''
+        statut: '',
+        nomUtilisateur: ''
     });
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setformData(prev => ({
+        setFormData(prev => ({
             ...prev,
             [name]: value
         }));
     };
 
-    const handleAddUser = async () => {
+    const handleAjouterUtilisateur = async () => {
         try {
-            const userData = {
-                first_name: formData.firstName,
-                last_name: formData.lastName,
+            const donneesUtilisateur = {
+                prenom: formData.prenom,
+                nom: formData.nom,
                 email_data: formData.email,
                 role_data: formData.role,
-                username_data: formData.username,
-                status_data: formData.status,
-
+                nom_utilisateur_data: formData.nomUtilisateur,
+                statut_data: formData.statut,
             };
-            const newUser = await addAudience(userData);
-            if (newUser) {
-                setAudiences(audiences => [...audiences, newUser]);
-                onHide();  // Close the modal
-                alert('User added successfully.');
+            const nouvelUtilisateur = await addAudience(donneesUtilisateur);
+            if (nouvelUtilisateur) {
+                setAudiences(audiences => [...audiences, nouvelUtilisateur]);
+                onHide();  // Fermer la fenêtre modale
+                alert('Utilisateur ajouté avec succès.');
             }
         } catch (error) {
-            console.error('Failed to add user:', error);
-            alert('Failed to add user.');
+            console.error('Échec de l\'ajout de l\'utilisateur:', error);
+            alert('Échec de l\'ajout de l\'utilisateur.');
         }
     };
 
-        useEffect(() => {
+    useEffect(() => {
         if (!show) {
-            setformData({
-                firstName: '',
-                lastName: '',
-                username: '',
+            setFormData({
+                prenom: '',
+                nom: '',
+                nomUtilisateur: '',
                 email: '',
                 role: '',
-                status: ''
+                statut: ''
             });
         }
     }, [show]);
@@ -59,64 +58,64 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
     return (
         <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='lg'>
             <Modal.Header closeButton>
-                <Modal.Title>Add new user</Modal.Title>
+                <Modal.Title>Ajouter un nouvel utilisateur</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label>First Name</label>
-                            <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First Name" />
+                            <label>Prénom</label>
+                            <input type="text" className="form-control" name="prenom" value={formData.prenom} onChange={handleInputChange} placeholder="Prénom" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label>Last Name</label>
-                            <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last Name" />
+                            <label>Nom</label>
+                            <input type="text" className="form-control" name="nom" value={formData.nom} onChange={handleInputChange} placeholder="Nom" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label>Username</label>
-                            <input type="text" className="form-control" name="username" value={formData.username} onChange={handleInputChange} placeholder="Username" />
+                            <label>Nom d'utilisateur</label>
+                            <input type="text" className="form-control" name="nomUtilisateur" value={formData.nomUtilisateur} onChange={handleInputChange} placeholder="Nom d'utilisateur" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label>Status Choice</label>
-                            <select className="form-control" name="status" value={formData.status} onChange={handleInputChange}>
-                                <option value="">Select</option>
-                                <option value="On Going">On Going</option>
-                                <option value="Arrived">Arrived</option>
-                                <option value="OverDue">OverDue</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
+                            <label>Statut</label>
+                            <select className="form-control" name="statut" value={formData.statut} onChange={handleInputChange}>
+                                <option value="">Sélectionner</option>
+                                <option value="En cours">En cours</option>
+                                <option value="Arrivé">Arrivé</option>
+                                <option value="En retard">En retard</option>
+                                <option value="En attente">En attente</option>
+                                <option value="Approuvé">Approuvé</option>
+                                <option value="Rejeté">Rejeté</option>
                             </select>
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label>Status Choice</label>
+                            <label>Rôle</label>
                             <select className="form-control" name="role" value={formData.role} onChange={handleInputChange}>
-                                <option value="">Select</option>
+                                <option value="">Sélectionner</option>
                                 <option value="Manager">Manager</option>
-                                <option value="User">User</option>
-                                <option value="Admin">Admin</option>
+                                <option value="Utilisateur">Utilisateur</option>
+                                <option value="Administrateur">Administrateur</option>
                             </select>
                         </div>
                     </div>
-                    <div className="col-md-6">
+                    <div classname="col-md-6">
                         <div className="form-group">
-                            <label>Email</label>
-                            <input type="text" className="form-control" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" />
+                            <label>E-mail</label>
+                            <input type="text" className="form-control" name="email" value={formData.email} onChange={handleInputChange} placeholder="E-mail" />
                         </div>
                     </div>
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-outline-secondary" onClick={onHide}>Close</button>
-                <button className="btn btn-primary" onClick={handleAddUser}>Add</button>
+                <button className="btn btn-outline-secondary" onClick={onHide}>Fermer</button>
+                <button className="btn btn-primary" onClick={handleAjouterUtilisateur}>Ajouter</button>
             </Modal.Footer>
         </Modal>
     );

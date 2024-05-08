@@ -15,13 +15,13 @@ const Audience = ({ sidebarState, setSidebarState }) => {
 
   const [editFormData, setEditFormData] = useState({
     id: "",
-    first_name: "",
-    last_name: "",
+    prenom: "",
+    nom: "",
     role_data: "",
-    phone_number: "",
+    numero_telephone: "",
     email_data: "",
-    status_data: '',
-    username_data: ""
+    statut_data: '',
+    nom_utilisateur_data: ""
   });
 
   const handleInputChange = (event) => {
@@ -37,7 +37,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
   };
 
   const filteredAudiences = audiences.filter(user => {
-    const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+    const fullName = `${user.prenom} ${user.nom}`.toLowerCase();
     return fullName.includes(searchTerm);
   });
 
@@ -125,9 +125,9 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                   name="roles"
                   id="role-select"
                 >
-                  <option selected>Role</option>
-                  <option value="Admin">Admin</option>
-                  <option value="User">User</option>
+                  <option selected>Rôle</option>
+                  <option value="Admin">Administrateur</option>
+                  <option value="User">Utilisateur</option>
                   <option value="Manager">Manager</option>
                 </select>
               </div>
@@ -144,10 +144,10 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Prenom</th>
+                    <th>Nom</th>
+                    <th>Address Email</th>
+                    <th>Rôle</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -160,16 +160,16 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                           <td>
                             <input
                               type="text"
-                              name="first_name"
-                              value={editFormData.first_name}
+                              name="prenom:"
+                              value={editFormData.prenom}
                               onChange={handleInputChange}
                             />
                           </td>
                           <td>
                             <input
                               type="text"
-                              name="last_name"
-                              value={editFormData.last_name}
+                              name="nom"
+                              value={editFormData.nom}
                               onChange={handleInputChange}
                             />
                           </td>
@@ -192,8 +192,8 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                         </>
                       ) : (
                         <>
-                          <td>{user.first_name}</td>
-                          <td>{user.last_name}</td>
+                          <td>{user.prenom}</td>
+                          <td>{user.nom}</td>
                           <td>{user.email_data}</td>
                           <td>{user.role_data}</td>
                         </>
@@ -203,19 +203,19 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                           onClick={handleSaveClick}
                           className="btn btn-success"
                         >
-                          Save
+                          Enregistrer
                         </button>
                         <button
                           onClick={() => handleEditClick(user)}
                           className="btn btn-primary"
                         >
-                          Edit
+                          Modifier
                         </button>
                         <button
                           onClick={() => handleDeleteAudience(user.id)}
                           className="btn btn-danger"
                         >
-                          Delete
+                          Supprimer
                         </button>
                       </td>
                     </tr>
@@ -227,7 +227,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
               className="btn btn-main px-3 py-2 mt-3"
               onClick={() => setShowAddModal(true)}
             >
-              New User
+              Nouveau Utilisateur
             </button>
           </div>
         </div>
