@@ -38,8 +38,9 @@ const Audience = ({ sidebarState, setSidebarState }) => {
 
   const filteredAudiences = audiences.filter(user => {
     const fullName = `${user.prenom} ${user.nom}`.toLowerCase();
-    return fullName.includes(searchTerm);
+    return fullName.includes(searchTerm.toLowerCase());
   });
+  
 
   const handleEditClick = (user) => {
     setEditAudienceId(user.id);

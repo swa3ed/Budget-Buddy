@@ -5,7 +5,7 @@ import { useSidebarOutsideAlerter } from "../Hooks/OutsideHook";
 import { useRef, useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faChartBar, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faChartBar, faQuestionCircle,   faSignOutAlt,faUsers,faClipboardList} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { faCar } from '@fortawesome/free-solid-svg-icons';
 
@@ -62,7 +62,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
             items.push(
                 <Link to={'/audience'} className={`sidebar-item ${activeItem === 'audience' ? 'active' : ''}`}>
                     <span className="sidebar-item-icon">
-                        <FontAwesomeIcon icon={faHome} />
+                        <FontAwesomeIcon icon={faUsers} />
                     </span>
                     <span className="sidebar-item-label">Public</span>
                 </Link>
@@ -83,9 +83,9 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
             items.push(
                 <Link to={'/mission'} className={`sidebar-item ${activeItem === 'form' ? 'active' : ''}`}>
                     <span className="sidebar-item-icon">
-                        <FontAwesomeIcon icon={faHome} />
+                        <FontAwesomeIcon icon={faClipboardList} />
                     </span>
-                    <span className="sidebar-item-label">Formulaire</span>
+                    <span className="sidebar-item-label">Missions</span>
                 </Link>
             );
         }
@@ -103,48 +103,47 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
 
         return items;
     }
-
     return (
         <aside className={`sidebar ${sidebarState ? 'show' : ''}`} ref={wrapperRef}>
-            <div className="sidebar-content d-flex flex-column justify-content-between ">
-                <div>
-                    {/* Profil */}
-                    <div className="position-relative">
-                        <div className="d-flex align-items-center gap-3">
-                            <img src={avatar} width={44} alt="Tableau de bord" />
-                            <div className="fw-bold profile-content">
-                                <h6 className="mb-0 text-sm">{name} {last_name}</h6>
-                                <h6 class="mb-0 text-sm">{email}</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="sidebar-divider"></div>
-                    {/* Éléments de la barre latérale */}
-                    <ul className="sidebar-items">
-                        <li className="sidebar-label">Principal</li>
-                        {renderMenuItems()}
-                    </ul>
+          <div className="sidebar-content d-flex flex-column justify-content-between">
+            <div>
+              {/* Profil */}
+              <div className="position-relative">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={avatar} width={44} alt="Tableau de bord" />
+                  <div className="fw-bold profile-content">
+                    <h6 className="mb-0 text-sm">{name} {last_name}</h6>
+                    <h6 className="mb-0 text-sm">{email}</h6>
+                  </div>
                 </div>
-                {/* Pied de page de la barre latérale */}
-                <div>
-                    <ul className="sidebar-items">
-                        <li className={`sidebar-item ${activeItem === 'help' ? 'active' : ''}`}>
-                            <span className="sidebar-item-icon">
-                                <FontAwesomeIcon icon={faQuestionCircle} />
-                            </span>
-                            <span className="sidebar-item-label">Aide</span>
-                        </li>
-                        <li className="sidebar-item" onClick={Logout} style={{ cursor: 'pointer' }}>
-                            <span className="sidebar-item-icon">
-                                <FontAwesomeIcon icon={faHome} />
-                            </span>
-                            <span className="sidebar-item-label" style={{ color: "#D55F5A" }}>Déconnexion du compte</span>
-                        </li>
-                    </ul>
-                </div>
+              </div>
+              <div className="sidebar-divider"></div>
+              {/* Éléments de la barre latérale */}
+              <ul className="sidebar-items">
+                <li className="sidebar-label">Principal</li>
+                {renderMenuItems()}
+              </ul>
             </div>
+            {/* Pied de page de la barre latérale */}
+            <div>
+              <ul className="sidebar-items">
+                <li className={`sidebar-item ${activeItem === 'help' ? 'active' : ''}`}>
+                  <span className="sidebar-item-icon">
+                    <FontAwesomeIcon icon={faQuestionCircle} />
+                  </span>
+                  <span className="sidebar-item-label">Aide</span>
+                </li>
+                <li className="sidebar-item" onClick={Logout} style={{ cursor: 'pointer' }}>
+                  <span className="sidebar-item-icon">
+                    <FontAwesomeIcon icon={faSignOutAlt} />
+                  </span>
+                  <span className="sidebar-item-label" style={{ color: "#D55F5A" }}>Déconnexion du compte</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </aside>
-    );
-};
+      );
+    };
 
-export default Sidebar;
+    export default Sidebar;

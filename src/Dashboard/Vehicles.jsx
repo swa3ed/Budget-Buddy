@@ -61,7 +61,6 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
         if (error.response) {
             // More detailed error information from server response
             console.error("Server responded with:", error.response.data);
-            alert(`Update failed: ${error.response.data.message || "Server error"}`);
         } else {
             // Generic error alert if no response from the server
             alert("Update failed: Network or server error.");
