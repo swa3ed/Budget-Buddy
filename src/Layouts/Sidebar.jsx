@@ -1,7 +1,6 @@
 import "../css/sidebar.css";
 import avatar from "../Assets/temp/avatar.png";
 import { Link } from "react-router-dom";
-import { useSidebarOutsideAlerter } from "../Hooks/OutsideHook";
 import { useRef, useState, useEffect } from "react";
 import { jwtDecode } from 'jwt-decode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +14,6 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [last_name, setLastName] = useState("");
-    useSidebarOutsideAlerter(wrapperRef, setSidebarState);
     const navigate = useNavigate();
 
     useEffect(() => {
