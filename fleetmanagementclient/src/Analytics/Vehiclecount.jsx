@@ -5,15 +5,15 @@ import 'chart.js/auto';
 const Vehiclecount = () => {
   // Assuming each vehicle has a current usage value and a total value.
   const vehicleData = {
-    cars: { current: 3, total: 8 },
-    trucks: { current: 6, total: 15 },
+    voituress: { current: 3, total: 8 },
+    camions: { current: 6, total: 15 },
     suvs: { current: 2, total: 9 },
   };
 
   // Generate background colors for each vehicle type.
   const backgroundColors = {
-    cars: 'rgba(255, 99, 132, 0.5)',
-    trucks: 'rgba(54, 162, 235, 0.5)',
+    voitures: 'rgba(255, 99, 132, 0.5)',
+    camions: 'rgba(54, 162, 235, 0.5)',
     suvs: 'rgba(255, 206, 86, 0.5)',
   };
 
@@ -50,7 +50,7 @@ const Vehiclecount = () => {
     plugins: {
       title: {
         display: true,
-        text: 'Number of Vehicles Used', // Replace with your actual title
+        text: 'Nombre De Vehicule Utiliser',
       },
       legend: {
         display: false, // Hide legend

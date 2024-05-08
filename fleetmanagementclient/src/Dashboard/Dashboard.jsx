@@ -15,22 +15,22 @@ const dashboardServices = [
   {
     ID: '1',
     date: '2022-10-01',
-    mainType: 'Oil Change',
-    vehicleId: 'ABC123',
+    maintenance: 'Oil Change',
+    vehiculeId: 'ABC123',
     status: 'Done'
   },
   {
     ID: 2,
     date: '2022-10-02',
-    mainType: 'Semi',
-    vehicleId: 'DEF456',
+    mintenance: 'Semi',
+    vehiculeId: 'DEF456',
     status: 'In_process'
   },
   {
     ID: 3,
     date: '2022-10-03',
-    mainType: 'SUV',
-    vehicleId: 'GHI789',
+    maintenance: 'SUV',
+    vehiculeId: 'GHI789',
     status: 'Not_started'
   },
   // Add more objects as needed
@@ -53,7 +53,7 @@ const Dashboard = ({ sidebarState, setSidebarState }) => {
                                                 <img src={car} alt="Dashboard" />
                                             </div>
                                             <div>
-                                                <h6 className="text-muted">Car</h6>
+                                                <h6 className="text-muted">Voiture</h6>
                                                 <h5 className="mb-0">8</h5>
                                             </div>
                                         </div>
@@ -64,7 +64,7 @@ const Dashboard = ({ sidebarState, setSidebarState }) => {
                                                 <img src={semi} alt="Dashboard" />
                                             </div>
                                             <div>
-                                                <h6 className="text-muted">Semi</h6>
+                                                <h6 className="text-muted">Semi-remorque</h6>
                                                 <h5 className="mb-0">15</h5>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@ const Dashboard = ({ sidebarState, setSidebarState }) => {
                                                 <img src={truck} alt="Dashboard" />
                                             </div>
                                             <div>
-                                                <h6 className="text-muted">Truck</h6>
+                                                <h6 className="text-muted">Camions</h6>
                                                 <h5 className="mb-0">9</h5>
                                             </div>
                                         </div>

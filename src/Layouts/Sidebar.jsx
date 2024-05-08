@@ -106,7 +106,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
                             <img src={avatar} width={44} alt="Dashboard" />
                             <div className="fw-bold profile-content">
                                 <h6 className="mb-0 text-sm">Admin Name</h6>
-                                <h6 class="mb-0 text-sm">Admin@example.com</h6>
+                                <h6 class="mb-0 text-sm">A.12@example.com</h6>
                             </div>
                         </div>
                     </div>

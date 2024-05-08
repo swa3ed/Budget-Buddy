@@ -7,7 +7,7 @@ const Piechart = () => {
     labels: ['Cars', 'Trucks', 'SUVs'],
     datasets: [
       {
-        label: 'Vehicle Usage Percentage',
+        label: 'Pourcentage Usage Des Vehicules',
         data: [40, 38, 22], // These should be your data points
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
@@ -33,7 +33,7 @@ const Piechart = () => {
       },
       title: {
         display: true,
-        text: 'Vehicle Usage Percentage',
+        text: 'Pourcentage Usage Des Vehicules',
       },
     },
   }

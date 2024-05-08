@@ -17,7 +17,7 @@ const ServiceList = ({ services, label }) => {
             <th>ID</th>
             <th>Date</th>
             <th>Service</th>
-            <th>Vehicle ID</th>
+            <th>Vehicule ID</th>
             <th>Status</th>
           </tr>
         </thead>

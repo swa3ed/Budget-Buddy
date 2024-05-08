@@ -42,7 +42,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
 
   const handleSaveClick = async () => {
     try {
-        console.log("Updating vehicle with data:", editFormData); // Log the data being sent
+        console.log("Mise à jour du véhicule avec les données:", editFormData); // Log the data being sent
         const updatedData = await updateVehicle(editFormData.id, editFormData);
         if (updatedData) {
             // Successfully updated the vehicle
@@ -51,20 +51,20 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
             );
             setVehicles(updatedVehicles);
             setEditVehicleId(null);
-            alert("Vehicle updated successfully.");
+            alert("Véhicule mis à jour avec succès.");
         } else {
             // If no data was returned, consider the update failed
             alert("Failed to update the vehicle.");
         }
     } catch (error) {
-        console.error("Error updating vehicle:", error);
+        console.error("Erreur lors de la mise à jour du véhicule:", error);
         if (error.response) {
             // More detailed error information from server response
-            console.error("Server responded with:", error.response.data);
-            alert(`Update failed: ${error.response.data.message || "Server error"}`);
+            console.error("Reponse du Serveur:", error.response.data);
+            alert(`Mise à jour échoué: ${error.response.data.message || "Erreur du Serveur"}`);
         } else {
             // Generic error alert if no response from the server
-            alert("Update failed: Network or server error.");
+            alert("Échec de la mise à jour: erreur de réseau ou du serveur.");
         }
     }
 };
@@ -73,16 +73,16 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
 
 
   const handleDeleteVehicle = async (id) => {
-    if (window.confirm("Are you sure you want to delete this vehicle?")) {
+    if (window.confirm("Ete-vous de supprimer ce vehicule?")) {
       const success = await deleteVehicle(id);
 
       if (success) {
         setVehicles((prevVehicles) =>
           prevVehicles.filter((vehicle) => vehicle.id !== id)
         );
-        alert("Vehicle deleted successfully.");
+        alert("Véhicule supprimer avec succés.");
       } else {
-        alert("Failed to delete the vehicle.");
+        alert("Échec de la suppression du véhicule.");
       }
     }
   };
@@ -98,7 +98,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
           setVehicles([]);
         }
       } catch (error) {
-        console.error("Error fetching vehicles:", error);
+        console.error("Erreur recherche de véhicule:", error);
         setVehicles([]);
       }
     };
@@ -126,7 +126,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         <img src={car} alt="Dashboard" />
                       </div>
                       <div>
-                        <h6 className="text-muted">Car</h6>
+                        <h6 className="text-muted">Voitures</h6>
                         <h5 className="mb-0">8</h5>
                       </div>
                     </div>
@@ -137,7 +137,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         <img src={semi} alt="Dashboard" />
                       </div>
                       <div>
-                        <h6 className="text-muted">Semi</h6>
+                        <h6 className="text-muted">Remor</h6>
                         <h5 className="mb-0">15</h5>
                       </div>
                     </div>
@@ -148,7 +148,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         <img src={suv} alt="Dashboard" />
                       </div>
                       <div>
-                        <h6 className="text-muted">SUVs</h6>
+                        <h6 className="text-muted">SUV</h6>
                         <h5 className="mb-0">9</h5>
                       </div>
                     </div>
@@ -159,7 +159,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         <img src={truck} alt="Dashboard" />
                       </div>
                       <div>
-                        <h6 className="text-muted">Truck</h6>
+                        <h6 className="text-muted">Semi</h6>
                         <h5 className="mb-0">9</h5>
                       </div>
                     </div>
@@ -172,7 +172,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
               <table className="table table-main table-hover">
                 <thead>
                   <tr>
-                    <th>Vehicle ID</th>
+                    <th>ID Vehicule</th>
                     <th>Type</th>
                     <th>Model</th>
                     <th>Age</th>
@@ -228,19 +228,19 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         </>
                       )}
                       <td className="d-flex gap-3 align-items-center justify-content-center">
-                      <button onClick={handleSaveClick} className="btn btn-success">Save</button>
+                      <button onClick={handleSaveClick} className="btn btn-success">Sauvegarder</button>
 
                         <button
                           onClick={() => handleEditClick(vehicle)}
                           className="btn btn-primary"
                         >
-                          Edit
+                          Modifier
                         </button>
                         <button
                           onClick={() => handleDeleteVehicle(vehicle.id)}
                           className="btn btn-danger"
                         >
-                          Delete
+                          Supprimer
                         </button>
                       </td>
                     </tr>
