@@ -1,19 +1,51 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../Layouts/Navbar";
 import Sidebar from "../Layouts/Sidebar";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import '../css/dashboard.css';
 import AddMission from "../Modals/AddMission";
-import { fetchMission, deleteMission,updateMission,addMission } from "../services/missionService";
+import EditMission from '../Modals/EditMission';
+import { fetchMission, deleteMission, updateMission, addMission } from "../services/missionService";
+import '../css/dashboard.css';
 
 const Mission = ({ sidebarState, setSidebarState }) => {
-
     const [showAddModal, setShowAddModal] = useState(false);
-    const [Missions, setMissions] = useState([]);
-    const [editMissionId, setEditMissionId] = useState(null);
-    const [editFormData, setEditFormData] = useState({
+    const [missions, setMissions] = useState([]);
+    const [currentMission, setCurrentMission] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    useEffect(() => {
+        const loadMissions = async () => {
+            try {
+                const data = await fetchMission();
+                setMissions(Array.isArray(data) ? data : []);
+            } catch (error) {
+                console.error("Error fetching missions:", error);
+            }
+        };
+        loadMissions();
+    }, []);
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
+        const date = new Date(dateString);
+        return date.toLocaleString('fr-FR', options);  
+    }
     
+    const statusOptions = {
+        "En cours": "1",
+        "Arrivé": "2",
+        "En retard": "3",
+        "En attente": "4",
+        "Approuvé": "5",
+        "Rejeté": "6"
+    };
+    
+    const numberToStatus = Object.entries(statusOptions).reduce((acc, [key, value]) => {
+        acc[value] = key;
+        return acc;
+    }, {});
+    const handleAddMission = () => {
+        setCurrentMission({
             title: "",
             start_time: "",
             end_time: "",
@@ -22,225 +54,121 @@ const Mission = ({ sidebarState, setSidebarState }) => {
             request_time: "",
             description: "",
             requester_id: "",
-        
-    });
-  
-    const handleInputChange = (event) => {
-      const { name, value } = event.target;
-      setEditFormData({
-        ...editFormData,
-        [name]: value,
-      });
+        });
+        setShowAddModal(true);
     };
-  
-    const handleEditClick = (Mission) => {
-      setEditMissionId(Mission.id);
-      setEditFormData(Mission);
-    };
-  
-    const handleSaveClick = async () => {
-      try {
-        console.log("Updating vehicle with data:", editFormData); // Log the data being sent
-        const updatedData = await updateMission(editFormData.id, editFormData);
-        if (updatedData) {
-          const updatedMissions = Mission.map((Mission) =>
-          Mission.id === updatedData.id ? updatedData : Mission
-          );
-          setMissions(updatedMissions);
-          setEditMissionId(null);
-        } else {
-          alert("Failed to update the mission.");
-        }
-      } catch (error) {
-        console.error("Error updating Mission:", error);
-        if (error.response) {
-          console.error("Server responded with:", error.response.data);
-        }
-        alert("Update Successfully");
-      }
-    };
-  
-  
-    const handleDeleteMission = async (id) => {
-      if (window.confirm("Are you sure you want to delete this mission?")) {
-        const success = await deleteMission(id);
-  
-        if (success) {
-          setMissions((prevMissions) =>
-            prevMissions.filter((Mission) => Mission.id !== id)
-          );
-          alert("Vehicle deleted successfully.");
-        } else {
-          alert("Failed to delete the vehicle.");
-        }
-      }
-    };
-  
-    useEffect(() => {
-      const loadMission = async () => {
-        try {
-          const data = await fetchMission();
-          if (Array.isArray(data)) {
-            setMissions(data);
-          } else {
-            console.error("Data is not an array:", data);
-            setMissions([]);
-          }
-        } catch (error) {
-          console.error("Error fetching Mission:", error);
-          setMissions([]);
-        }
+    
+
+    const handleEditClick = (mission) => {
+        setCurrentMission(mission);
+        setShowEditModal(true);
       };
-      loadMission();
-    }, []);
+
+    const handleMissionSave = async (missionData) => {
+      try {
+        if (missionData.id) {
+            console.log("Updating mission:", missionData);
+            const updatedData = await updateMission(missionData.id,missionData);
+            setMissions(missions.map(m => m.id === missionData.id ? updatedData : m));
+        } else {
+            console.log("Adding new mission:", missionData);
+            const newData = await addMission(missionData);
+            setMissions([...missions, newData]);
+        }
+        setShowAddModal(false);
+      } catch (error) {
+          console.error("Error adding mission:", error);
+          alert("Failed to add mission.");
+      }
+  };
+
+    const handleDeleteMission = async (id) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer cette mission ?")) {
+            try {
+                console.log("Deleting mission with ID:", id);
+                const success =await deleteMission(id);
+                if (!success) {
+                    throw new Error("Failed to delete the mission.");
+                }
+                else{
+                    console.log("Deleted mission with ID:", id);
+                    setMissions(missions.filter(m => m.id !== id));
+                }
+                alert("Êtes-vous sûr de vouloir supprimer cette mission ?");
+            } catch (error) {
+                console.error("Error deleting mission:", error);
+                alert("Échec de la suppression de la mission.");
+            }
+        }
+    };
 
     return (
         <div className="main d-flex min-vh-100 flex-nowrap">
-            <Sidebar activeItem={'form'} sidebarState={sidebarState} setSidebarState={setSidebarState}/>
+            <Sidebar activeItem={'form'} sidebarState={sidebarState} setSidebarState={setSidebarState} />
             <main className="d-flex min-vh-100 flex-column flex-grow-1 overflow-y-scroll">
                 <Navbar />
                 <div className="content bg-white flex-grow-1">
                     <div className="px-lg-5 py-lg-3 p-2 h-100">
-                        {/* Search & Filters */}
                         <div className="row g-0 mb-3">
-                            <div className="col-md-7">
-                                <input type="text" class="form-control bg-light px-4 fw-semibold rounded-end-0" name="search" id="search-input"  placeholder="Search" />
-                            </div>
-                            <div className="col-md-2">
-                                <select  class="form-select px-4 bg-light fw-semibold rounded-start-0 rounded-end-0" name="roles" id="role-select">
-                                    <option selected>Role</option>
-                                    <option value="">Admin</option>
-                                    <option value="">User</option>
-                                    <option value="">Manager</option>
-                                </select>
-                            </div>
-                            <div className="col-md-2">
-                                <select  class="form-select px-4 bg-light fw-semibold rounded-start-0 rounded-end-0" name="status" id="status-select">
-                                    <option selected>Status</option>
-                                    <option value="On Going">On Going</option>
-                                    <option value="Arrived">Arrived</option>
-                                    <option value="OverDue">OverDue</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Approved">Approved</option>
-                                    <option value="Rejected">Rejected</option>
-                                </select>
-                            </div>
                             <div className="col-md-auto col-sm-1">
                                 <button className="btn rounded-start-0 btn-main w-100">
                                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                                 </button>
                             </div>
                         </div>
-                        {/* Table */}
                         <div className="table-responsive mt-5">
                             <table className="table table-main table-hover w-100 word-wrp">
                                 <thead>
                                     <tr>
                                         <th>Mission</th>
-                                        <th>Start Time</th>
-                                        <th>End Time</th>
+                                        <th>Heure de début</th>
+                                        <th>Heure de fin</th>
                                         <th>Description</th>
-                                        <th>Requester</th>
-                                        <th>Status</th>
-                                        <th></th>
+                                        <th>Demandeur</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Missions.map((mission) => (
+                                    {missions.map((mission) => (
                                         <tr key={mission.id}>
-                                        {editMissionId === mission.id ? (
-                                            <>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                name="title"
-                                                value={editFormData.title}
-                                                onChange={handleInputChange}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                name="start_time"
-                                                value={editFormData.start_time}
-                                                onChange={handleInputChange}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                name="end_time"
-                                                value={editFormData.end_time}
-                                                onChange={handleInputChange}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                name="description"
-                                                value={editFormData.description}
-                                                onChange={handleInputChange}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                name="requester_id"
-                                                value={editFormData.requester_id}
-                                                onChange={handleInputChange}
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                type="text"
-                                                name="status"
-                                                value={editFormData.status}
-                                                onChange={handleInputChange}
-                                                />
-                                            </td>
-                                            </>
-                                        ) : (
-                                            <>
                                             <td>{mission.title}</td>
-                                            <td>{mission.start_time}</td>
-                                            <td>{mission.end_time}</td>
+                                            <td>{formatDate(mission.start_time)}</td>
+                                            <td>{formatDate(mission.end_time)}</td>
                                             <td>{mission.description}</td>
                                             <td>{mission.requester_id}</td>
-                                            <td>{mission.status}</td>
-                                            </>
-                                        )}
-                                        <td className="d-flex gap-3 align-items-center justify-content-center">
-                                            {editMissionId === mission.id ? (
-                                            <button onClick={handleSaveClick} className="btn btn-success">Save</button>
-                                            ) : (
-                                            <>
-                                                <button
-                                                onClick={() => handleEditClick(mission)}
-                                                className="btn btn-primary"
-                                                >
-                                                Edit
-                                                </button>
-                                                <button
-                                                onClick={() => handleDeleteMission(mission.id)}
-                                                className="btn btn-danger"
-                                                >
-                                                Delete
-                                                </button>
-                                            </>
-                                            )}
-                                        </td>
+                                            <td>{numberToStatus[mission.status]}</td>
+                                            <td className="d-flex gap-3 align-items-center justify-content-center">
+                                                <button onClick={() => handleEditClick(mission)} className="btn btn-primary">Modifier</button>
+                                                <button onClick={() => handleDeleteMission(mission.id)} className="btn btn-danger">Supprimer</button>
+                                            </td>
                                         </tr>
                                     ))}
-                                    </tbody>
+                                </tbody>
                             </table>
                         </div>
-                        <button className="btn btn-main px-3 py-2 mt-3" onClick={() => setShowAddModal(true)}>New Mission</button>
+                        <button className="btn btn-success px-3 py-2 mt-3" onClick={handleAddMission}>Nouvelle Mission</button>
                     </div>
                 </div>
             </main>
-            <AddMission show={showAddModal} onHide={() => setShowAddModal(false)} hide={() => setShowAddModal(false)}/>
+            {showAddModal && (
+                <AddMission
+                    show={showAddModal}
+                    onHide={() => setShowAddModal(false)}
+                    onSave={handleMissionSave}
+                />
+            )}
+            {showEditModal && (
+                <EditMission
+                    show={showEditModal}
+                    onHide={() => setShowEditModal(false)}
+                    onSave={handleMissionSave}
+                    missionToEdit={currentMission}
+                />
+            )}
         </div>
     );
-}
+};
 
-export default Mission
+export default Mission;
+

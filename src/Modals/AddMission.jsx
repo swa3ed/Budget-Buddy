@@ -1,80 +1,92 @@
 import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
 
 
-const AddMission = ({ show, onHide, hide }) => {
-    return <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='xl' >
-            <Modal.Header className='border-0' closeButton>
-                <Modal.Title className='text-sm fw-bold'>Add new mession</Modal.Title>
+const AddMission = ({ show, onHide, onSave }) => {
+    const [mission, setMission] = useState({
+        title: '',
+        start_time: '',
+        end_time: '',
+        status: '4',
+        expected_arrival: '',
+        requester_id: '',
+        description: ''
+    });
+
+    const statusOptions = {
+        "En cours": "1",
+        "Arrivé": "2",
+        "En retard": "3",
+        "En attente": "4",
+        "Approuvé": "5",
+        "Rejeté": "6"
+    };
+
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        console.log(name, value);  
+        if (name === "status") {
+            const statusValue = value;
+            console.log(statusValue);  
+            setMission(prevMission => ({ ...prevMission, [name]: statusValue }));
+        } else {
+            setMission(prevMission => ({ ...prevMission, [name]: value }));
+        }
+    };
+    
+    
+    const handleSubmit = () => {
+        onSave(mission);
+        onHide();  // Close the modal after saving
+    };
+    return (
+        <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='xl'>
+            <Modal.Header closeButton>
+                <Modal.Title>Créer une nouvelle mission</Modal.Title>
             </Modal.Header>
-
             <Modal.Body>
-                <div className="row row-gap-3">
-                <div className="col-md-6">
-                    <div className="card border-0">
-                        <div className="card-body">
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Title</label>
-                                <input type="text" class="form-control border-black" name="title" id="title-input" placeholder="Enter Title" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Start Time</label>
-                                <input type="text" class="form-control border-black" name="start-time" id="start-time-input" placeholder="starting Time" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">End Time</label>
-                                <input type="text" class="form-control border-black" name="end-time" id="end-time-input" placeholder="end Time" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Status Choise</label>
-                                <select class="form-select border-black" name="status"  id="status-select">
-                                    <option selected>Select</option>
-                                    <option value="On Going">On Going</option>
-                                    <option value="Arrived">Arrived</option>
-                                    <option value="OverDue">OverDue</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Approved">Approved</option>
-                                    <option value="Rejected">Rejected</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <div className="form-group">
+                    <label>Titre</label>
+                    <input type="text" className="form-control" name="title" value={mission.title} onChange={handleChange} />
                 </div>
-                <div className="col-md-6">
-                    <div className="card border-0">
-                        <div className="card-body">
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Status</label>
-                                <input type="text" class="form-control border-black" name="status-in" id="status-input" placeholder="pending" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Expected arrival</label>
-                                <input type="text" class="form-control border-black" name="arrival" id="arrival-input" placeholder="arrival" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Requester ID</label>
-                                <input type="text" class="form-control border-black" name="req-id" id="requester-id-input" placeholder="ID" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Requeste Time</label>
-                                <input type="text" class="form-control border-black" name="req-time-id" id="requeste-time-input" placeholder="request time" />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label fw-semibold">Description</label>
-                                <textarea class="form-control border-black" name="req-time-id" rows={5} id="description-input" placeholder="description"></textarea>
-                            </div>
-                        </div>
-                    </div>
+                <div className="form-group">
+                    <label>Heure de début</label>
+                    <input type="datetime-local" className="form-control" name="start_time" value={mission.start_time} onChange={handleChange} />
                 </div>
+                <div className="form-group">
+                    <label>Heure de fin</label>
+                    <input type="datetime-local" className="form-control" name="end_time" value={mission.end_time} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                    <label>Statut</label>
+                    <select className="form-select border-black" name="status" value={mission.status} onChange={handleChange}>
+                        <option value="">Statut</option>
+                        {Object.keys(statusOptions).map(key => (
+                            <option key={key} value={statusOptions[key]}>{key}</option>
+                        ))}
+                    </select>
+
+                </div>
+                <div className="form-group">
+                    <label>Heure d'arrivée prévue</label>
+                    <input type="datetime-local" className="form-control" name="expected_arrival" value={mission.expected_arrival} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                    <label>ID du demandeur</label>
+                    <input type="text" className="form-control" name="requester_id" value={mission.requester_id} onChange={handleChange} />
+                </div>
+                <div className="form-group">
+                    <label>Description</label>
+                    <textarea className="form-control" name="description" rows="3" value={mission.description} onChange={handleChange}></textarea>
                 </div>
             </Modal.Body>
-
-            <Modal.Footer className='border-0'>
-                {/* <Button variant="secondary">Close</Button> */}
-                {/* <Button variant="primary">Save changes</Button> */}
-                <button className="btn btn-outline-secondary px-3 py-2 mt-3" onClick={() => hide()}>Close</button>
-                <button className="btn btn-main px-3 py-2 mt-3">Add</button>
+            <Modal.Footer>
+                <button className="btn btn-secondary" onClick={onHide}>Annuler</button>
+                <button className="btn btn-primary" onClick={handleSubmit}>Créer</button>
             </Modal.Footer>
     </Modal>
+    );
 }
 
 export default AddMission;
