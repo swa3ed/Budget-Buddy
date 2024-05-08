@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+on:
   push:
     branches:
       - Master
@@ -15,10 +15,10 @@ jobs:
         run: npm install --force && npm run build
         env:
           NODE_OPTIONS: --openssl-legacy-provider
-          CI: false # This line overrides the default CI behavior
+          CI: false  # This line overrides the default CI behavior
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-                repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_XTRAIN_F678E }}'
           channelId: live
           projectId: xtrain-f678e
