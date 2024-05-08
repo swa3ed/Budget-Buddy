@@ -15,13 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install and Build
-        run: npm install --force && npm run build
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
-          CI: false # This line overrides the default CI behavior
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_XTRAIN_F678E }}'
-          channelId: live
-          projectId: xtrain-f678e
+        run: npm install --force 
+      #   env:
+      #     NODE_OPTIONS: --openssl-legacy-provider
+      #     CI: false # This line overrides the default CI behavior
+      # - uses: FirebaseExtended/action-hosting-deploy@v0
+      #   with:
+      #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
+      #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_XTRAIN_F678E }}'
+      #     channelId: live
+      #     projectId: xtrain-f678e
