@@ -3,7 +3,7 @@ import avatar from "../Assets/temp/avatar.png";
 import { Link } from "react-router-dom";
 import { useSidebarOutsideAlerter } from "../Hooks/OutsideHook";
 import { useRef, useState, useEffect } from "react";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faChartBar, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,9 @@ import { faCar } from '@fortawesome/free-solid-svg-icons';
 const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated, handleLogout }) => {
     const wrapperRef = useRef(null);
     const [role, setRole] = useState("");
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [last_name, setLastName] = useState("");
     useSidebarOutsideAlerter(wrapperRef, setSidebarState);
     const navigate = useNavigate();
 
@@ -21,7 +24,12 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
             try {
                 const decodedToken = jwtDecode(token);
                 setRole(decodedToken.role); // Assumes the token has a 'role' field
+                setName(decodedToken.first_name); // Assumes the token has a 'name' field
+                setEmail(decodedToken.email); // Assumes the token has an 'email' field
+                setLastName(decodedToken.last_name); // Assumes the token has a 'last_name' field
                 console.log("Role:", decodedToken.role);
+                console.log("Name:", decodedToken.name);
+                console.log("Email:", decodedToken.email);
             } catch (error) {
                 console.error("Error decoding JWT:", error);
             }
@@ -46,7 +54,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
                 <span className="sidebar-item-icon">
                     <FontAwesomeIcon icon={faHome} />
                 </span>
-                <span className="sidebar-item-label">Dashboard</span>
+                <span className="sidebar-item-label">Tableau de bord</span>
             </Link>
         );
 
@@ -56,7 +64,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
                     <span className="sidebar-item-icon">
                         <FontAwesomeIcon icon={faHome} />
                     </span>
-                    <span className="sidebar-item-label">Audience</span>
+                    <span className="sidebar-item-label">Public</span>
                 </Link>
             );
         }
@@ -66,7 +74,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
                     <span className="sidebar-item-icon">
                         <FontAwesomeIcon icon={faCar} />
                     </span>
-                    <span className="sidebar-item-label">Vehicles</span>
+                    <span className="sidebar-item-label">Véhicules</span>
                 </Link>
             );
         }
@@ -77,7 +85,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
                     <span className="sidebar-item-icon">
                         <FontAwesomeIcon icon={faHome} />
                     </span>
-                    <span className="sidebar-item-label">Form</span>
+                    <span className="sidebar-item-label">Formulaire</span>
                 </Link>
             );
         }
@@ -88,7 +96,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
                     <span className="sidebar-item-icon">
                         <FontAwesomeIcon icon={faChartBar} />
                     </span>
-                    <span className="sidebar-item-label">Statistics</span>
+                    <span className="sidebar-item-label">Statistiques</span>
                 </Link>
             );
         }
@@ -100,37 +108,37 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
         <aside className={`sidebar ${sidebarState ? 'show' : ''}`} ref={wrapperRef}>
             <div className="sidebar-content d-flex flex-column justify-content-between ">
                 <div>
-                    {/* Profile */}
+                    {/* Profil */}
                     <div className="position-relative">
                         <div className="d-flex align-items-center gap-3">
-                            <img src={avatar} width={44} alt="Dashboard" />
+                            <img src={avatar} width={44} alt="Tableau de bord" />
                             <div className="fw-bold profile-content">
-                                <h6 className="mb-0 text-sm">Admin Name</h6>
-                                <h6 class="mb-0 text-sm">Admin@example.com</h6>
+                                <h6 className="mb-0 text-sm">{name} {last_name}</h6>
+                                <h6 class="mb-0 text-sm">{email}</h6>
                             </div>
                         </div>
                     </div>
                     <div className="sidebar-divider"></div>
-                    {/* Sidebar Items */}
+                    {/* Éléments de la barre latérale */}
                     <ul className="sidebar-items">
-                        <li className="sidebar-label">Main</li>
+                        <li className="sidebar-label">Principal</li>
                         {renderMenuItems()}
                     </ul>
                 </div>
-                {/* Sidebar Footer */}
+                {/* Pied de page de la barre latérale */}
                 <div>
                     <ul className="sidebar-items">
                         <li className={`sidebar-item ${activeItem === 'help' ? 'active' : ''}`}>
                             <span className="sidebar-item-icon">
                                 <FontAwesomeIcon icon={faQuestionCircle} />
                             </span>
-                            <span className="sidebar-item-label">Help</span>
+                            <span className="sidebar-item-label">Aide</span>
                         </li>
                         <li className="sidebar-item" onClick={Logout} style={{ cursor: 'pointer' }}>
                             <span className="sidebar-item-icon">
                                 <FontAwesomeIcon icon={faHome} />
                             </span>
-                            <span className="sidebar-item-label" style={{ color: "#D55F5A" }}>Logout Account</span>
+                            <span className="sidebar-item-label" style={{ color: "#D55F5A" }}>Déconnexion du compte</span>
                         </li>
                     </ul>
                 </div>
