@@ -5,7 +5,7 @@ import Sidebar from "../Layouts/Sidebar";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import "../css/dashboard.css";
 import AddUserModal from "../Modals/AddUser";
-import { fetchAudiences, deleteAudience,updateUser,addAudience } from "../services/audienceService";
+import { fetchAudiences, deleteAudience, updateUser } from "../services/audienceService";
 
 const Audience = ({ sidebarState, setSidebarState }) => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -15,18 +15,21 @@ const Audience = ({ sidebarState, setSidebarState }) => {
 
   const [editFormData, setEditFormData] = useState({
     id: "",
-    email: "",
-    first_name: "",
-    last_name: "",
-    role: "",
+    prenom: "",
+    nom: "",
+    role_data: "",
+    numero_telephone: "",
+    email_data: "",
+    statut_data: '',
+    nom_utilisateur_data: ""
   });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setEditFormData({
-      ...editFormData,
-      [name]: value,
-    });
+    setEditFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSearchChange = (event) => {
@@ -34,9 +37,10 @@ const Audience = ({ sidebarState, setSidebarState }) => {
   };
 
   const filteredAudiences = audiences.filter(user => {
-    const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+    const fullName = `${user.prenom} ${user.nom}`.toLowerCase();
     return fullName.includes(searchTerm);
   });
+
   const handleEditClick = (user) => {
     setEditAudienceId(user.id);
     setEditFormData(user);
@@ -44,23 +48,19 @@ const Audience = ({ sidebarState, setSidebarState }) => {
 
   const handleSaveClick = async () => {
     try {
-      console.log("Updating vehicle with data:", editFormData); // Log the data being sent
       const updatedData = await updateUser(editFormData.id, editFormData);
       if (updatedData) {
         const updatedAudiences = audiences.map((user) =>
-        user.id === updatedData.id ? updatedData : user
+          user.id === updatedData.id ? updatedData : user
         );
         setAudiences(updatedAudiences);
         setEditAudienceId(null);
       } else {
-        alert("Failed to update the vehicle.");
+        alert("Failed to update the user.");
       }
     } catch (error) {
       console.error("Error updating user:", error);
-      if (error.response) {
-        console.error("Server responded with:", error.response.data);
-      }
-      alert("Update Successfully");
+      alert("Update failed.");
     }
   };
 
@@ -76,7 +76,6 @@ const Audience = ({ sidebarState, setSidebarState }) => {
       }
     }
   };
-  
 
   useEffect(() => {
     const loadAudiences = async () => {
@@ -116,6 +115,8 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                   name="search"
                   id="search-input"
                   placeholder="Search"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
                 />
               </div>
               <div className="col-md-2">
@@ -124,9 +125,9 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                   name="roles"
                   id="role-select"
                 >
-                  <option selected>Role</option>
-                  <option value="Admin">Admin</option>
-                  <option value="User">User</option>
+                  <option selected>Rôle</option>
+                  <option value="Admin">Administrateur</option>
+                  <option value="User">Utilisateur</option>
                   <option value="Manager">Manager</option>
                 </select>
               </div>
@@ -143,15 +144,15 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Prenom</th>
+                    <th>Nom</th>
+                    <th>Address Email</th>
+                    <th>Rôle</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {audiences.map((user) => (
+                  {filteredAudiences.map((user) => (
                     <tr key={user.id}>
                       <td>{user.id}</td>
                       {editAudienceId === user.id ? (
@@ -159,58 +160,62 @@ const Audience = ({ sidebarState, setSidebarState }) => {
                           <td>
                             <input
                               type="text"
-                              name="first_name"
-                              value={editFormData.first_name}
+                              name="prenom:"
+                              value={editFormData.prenom}
                               onChange={handleInputChange}
                             />
                           </td>
                           <td>
                             <input
                               type="text"
-                              name="last_name"
-                              value={editFormData.last_name}
+                              name="nom"
+                              value={editFormData.nom}
                               onChange={handleInputChange}
                             />
                           </td>
                           <td>
                             <input
                               type="text"
-                              name="email"
-                              value={editFormData.email}
+                              name="email_data"
+                              value={editFormData.email_data}
                               onChange={handleInputChange}
                             />
                           </td>
                           <td>
                             <input
                               type="text"
-                              name="role"
-                              value={editFormData.role}
+                              name="role_data"
+                              value={editFormData.role_data}
                               onChange={handleInputChange}
                             />
                           </td>
                         </>
                       ) : (
                         <>
-                          <td>{user.first_name}</td>
-                          <td>{user.last_name}</td>
-                          <td>{user.email}</td>
-                          <td>{user.role}</td>
+                          <td>{user.prenom}</td>
+                          <td>{user.nom}</td>
+                          <td>{user.email_data}</td>
+                          <td>{user.role_data}</td>
                         </>
                       )}
                       <td className="d-flex gap-3 align-items-center justify-content-center">
-                      <button onClick={handleSaveClick} className="btn btn-success">Save</button>
-
+                        <button
+                          onClick={handleSaveClick}
+                          className="btn btn-success"
+                        >
+                          Enregistrer
+                        </button>
                         <button
                           onClick={() => handleEditClick(user)}
                           className="btn btn-primary"
                         >
-                          Edit
+                          Modifier
                         </button>
                         <button
                           onClick={() => handleDeleteAudience(user.id)}
                           className="btn btn-danger"
                         >
-                          Delete
+                          Supprimer
                         </button>
                       </td>
                     </tr>
@@ -222,7 +227,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
               className="btn btn-main px-3 py-2 mt-3"
               onClick={() => setShowAddModal(true)}
             >
-              New User
+              Nouveau Utilisateur
             </button>
           </div>
         </div>
@@ -230,7 +235,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
       <AddUserModal
         show={showAddModal}
         onHide={() => setShowAddModal(false)}
-        hide={() => setShowAddModal(false)}
+        setAudiences={setAudiences}
       />
     </div>
   );
