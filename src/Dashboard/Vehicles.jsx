@@ -148,7 +148,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                         <img src={suv} alt="Dashboard" />
                       </div>
                       <div>
-                        <h6 className="text-muted">SUVs</h6>
+                        <h6 className="text-muted">SUV</h6>
                         <h5 className="mb-0">9</h5>
                       </div>
                     </div>
