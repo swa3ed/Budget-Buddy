@@ -250,7 +250,7 @@ const Audience = ({ sidebarState, setSidebarState }) => {
               </table>
             </div>
             <button
-              className="btn btn-main px-3 py-2 mt-3"
+              className="btn btn-success px-3 py-2 mt-3"
               onClick={() => setShowAddModal(true)}
             >
               Nouveau Utilisateur
