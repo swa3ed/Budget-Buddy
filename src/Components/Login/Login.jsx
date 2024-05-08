@@ -41,7 +41,7 @@ const Login = () => {
                 <div className="input-box">
                     <input
                         type="text"
-                        placeholder="Admin"
+                        placeholder="User name"
                         required
                         value={admin}
                         onChange={e => setAdmin(e.target.value)}

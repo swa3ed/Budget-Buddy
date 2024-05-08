@@ -81,7 +81,7 @@ const Sidebar = ({ activeItem, sidebarState, setSidebarState, setIsAuthenticated
 
         if (role !== "fleet_manager") {
             items.push(
-                <Link to={'/form'} className={`sidebar-item ${activeItem === 'form' ? 'active' : ''}`}>
+                <Link to={'/mission'} className={`sidebar-item ${activeItem === 'form' ? 'active' : ''}`}>
                     <span className="sidebar-item-icon">
                         <FontAwesomeIcon icon={faHome} />
                     </span>
