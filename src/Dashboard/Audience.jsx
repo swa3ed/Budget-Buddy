@@ -11,6 +11,8 @@ const Audience = ({ sidebarState, setSidebarState }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [audiences, setAudiences] = useState([]);
   const [editAudienceId, setEditAudienceId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [editFormData, setEditFormData] = useState({
     id: "",
     email: "",
@@ -27,6 +29,14 @@ const Audience = ({ sidebarState, setSidebarState }) => {
     });
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  const filteredAudiences = audiences.filter(user => {
+    const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+    return fullName.includes(searchTerm);
+  });
   const handleEditClick = (user) => {
     setEditAudienceId(user.id);
     setEditFormData(user);
@@ -54,21 +64,19 @@ const Audience = ({ sidebarState, setSidebarState }) => {
     }
   };
 
-
   const handleDeleteAudience = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       const success = await deleteAudience(id);
 
       if (success) {
-        setAudiences((prevUsers) =>
-          prevUsers.filter((user) => user.id !== id)
-        );
-        alert("Vehicle deleted successfully.");
+        setAudiences((prevUsers) => prevUsers.filter((user) => user.id !== id));
+        alert("User deleted successfully.");
       } else {
-        alert("Failed to delete the vehicle.");
+        alert("Failed to delete the user.");
       }
     }
   };
+  
 
   useEffect(() => {
     const loadAudiences = async () => {

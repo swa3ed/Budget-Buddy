@@ -1,37 +1,73 @@
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
+import { addAudience } from '../services/audienceService';
 
+const AddUserModal = ({ show, onHide, setAudiences }) => {
+    const [formData, setformData] = useState({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        status: '',
+        role: ''
+    });
 
-const AddUserModal = ({ show, onHide, hide }) => {
-    return <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='lg' >
-            <Modal.Header className='border-0' closeButton>
-                <Modal.Title className='text-sm fw-bold'>Add new user</Modal.Title>
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setformData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleAddUser = async () => {
+        try {
+            const userData = {
+                ...formData,
+                username: formData.firstName + formData.lastName,  // Example if needed
+                email: formData.email  // Ensure this input is included if it's needed
+            };
+            const newUser = await addAudience(userData);
+            if (newUser) {
+                setAudiences(audiences => [...audiences, newUser]);
+                onHide();  // Close the modal
+                alert('User added successfully.');
+            }
+        } catch (error) {
+            console.error('Failed to add user:', error);
+            alert('Failed to add user.');
+        }
+    };
+
+    return (
+        <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='lg'>
+            <Modal.Header closeButton>
+                <Modal.Title>Add new user</Modal.Title>
             </Modal.Header>
-
             <Modal.Body>
-                <div className="row row-gap-3">
+                <div className="row">
                     <div className="col-md-6">
-                        <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">First Name</label>
-                            <input type="text" class="form-control" name="fname" id="fname-input" placeholder="First Name" />
+                        <div className="form-group">
+                            <label>First Name</label>
+                            <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="First Name" />
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Last Name</label>
-                            <input type="text" class="form-control" name="lname" id="lname-input" placeholder="Last Name" />
+                        <div className="form-group">
+                            <label>Last Name</label>
+                            <input type="text" className="form-control" name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="Last Name" />
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Phone Number</label>
-                            <input type="text" class="form-control" name="phone" id="phone-input" placeholder="Phone" />
+                        <div className="form-group">
+                            <label>Phone Number</label>
+                            <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Phone" />
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Status Choise</label>
-                            <select class="form-select" name="status"  id="status-select">
-                                <option selected>Select</option>
+                        <div className="form-group">
+                            <label>Status Choice</label>
+                            <select className="form-control" name="status" value={formData.status} onChange={handleInputChange}>
+                                <option value="">Select</option>
                                 <option value="On Going">On Going</option>
                                 <option value="Arrived">Arrived</option>
                                 <option value="OverDue">OverDue</option>
@@ -42,21 +78,19 @@ const AddUserModal = ({ show, onHide, hide }) => {
                         </div>
                     </div>
                     <div className="col-md-12">
-                        <div class="">
-                            <label for="" class="form-label fw-semibold text-sm">Roles</label>
-                            <input type="text" class="form-control" name="role" id="role-input" placeholder="Roles" />
+                        <div className="form-group">
+                            <label>Role</label>
+                            <input type="text" className="form-control" name="role" value={formData.role} onChange={handleInputChange} placeholder="Role" />
                         </div>
                     </div>
                 </div>
             </Modal.Body>
-
-            <Modal.Footer className='border-0'>
-                {/* <Button variant="secondary">Close</Button> */}
-                {/* <Button variant="primary">Save changes</Button> */}
-                <button className="btn btn-outline-secondary px-3 py-2 mt-3" onClick={() => hide()}>Close</button>
-                <button className="btn btn-main px-3 py-2 mt-3">Add</button>
+            <Modal.Footer>
+                <button className="btn btn-outline-secondary" onClick={onHide}>Close</button>
+                <button className="btn btn-primary" onClick={handleAddUser}>Add</button>
             </Modal.Footer>
-    </Modal>
-}
+        </Modal>
+    );
+};
 
 export default AddUserModal;

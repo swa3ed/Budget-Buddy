@@ -25,7 +25,6 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
     status: "",
   });
 
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setEditFormData({
@@ -36,46 +35,47 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
 
   const handleEditClick = (vehicle) => {
     setEditVehicleId(vehicle.id);
-    setEditFormData(vehicle);
+    setEditFormData({
+      id: vehicle.id,
+      transport: vehicle.transport,
+      model: vehicle.model,
+      age: vehicle.age,
+      status: vehicle.status,
+    });
   };
-
 
   const handleSaveClick = async () => {
     try {
-        console.log("Updating vehicle with data:", editFormData); // Log the data being sent
-        const updatedData = await updateVehicle(editFormData.id, editFormData);
-        if (updatedData) {
-            // Successfully updated the vehicle
-            const updatedVehicles = vehicles.map(vehicle =>
-                vehicle.id === updatedData.id ? updatedData : vehicle
-            );
-            setVehicles(updatedVehicles);
-            setEditVehicleId(null);
-            alert("Vehicle updated successfully.");
-        } else {
-            // If no data was returned, consider the update failed
-            alert("Failed to update the vehicle.");
-        }
+      console.log("Updating vehicle with data:", editFormData); // Log the data being sent
+      const updatedData = await updateVehicle(editFormData.id, editFormData);
+      if (updatedData) {
+        // Successfully updated the vehicle
+        const updatedVehicles = vehicles.map(vehicle =>
+          vehicle.id === updatedData.id ? updatedData : vehicle
+        );
+        setVehicles(updatedVehicles);
+        setEditVehicleId(null);
+        alert("Vehicle updated successfully.");
+      } else {
+        // If no data was returned, consider the update failed
+        alert("Failed to update the vehicle.");
+      }
     } catch (error) {
-        console.error("Error updating vehicle:", error);
-        if (error.response) {
-            // More detailed error information from server response
-            console.error("Server responded with:", error.response.data);
-            alert(`Update failed: ${error.response.data.message || "Server error"}`);
-        } else {
-            // Generic error alert if no response from the server
-            alert("Update failed: Network or server error.");
-        }
+      console.error("Error updating vehicle:", error);
+      if (error.response) {
+        // More detailed error information from server response
+        console.error("Server responded with:", error.response.data);
+        alert(`Update failed: ${error.response.data.message || "Server error"}`);
+      } else {
+        // Generic error alert if no response from the server
+        alert("Update failed: Network or server error.");
+      }
     }
-};
-
-
-
+  };
 
   const handleDeleteVehicle = async (id) => {
     if (window.confirm("Are you sure you want to delete this vehicle?")) {
       const success = await deleteVehicle(id);
-
       if (success) {
         setVehicles((prevVehicles) =>
           prevVehicles.filter((vehicle) => vehicle.id !== id)
@@ -192,6 +192,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                               name="transport"
                               value={editFormData.transport}
                               onChange={handleInputChange}
+                              className="form-control"  // Added className
                             />
                           </td>
                           <td>
@@ -200,6 +201,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                               name="model"
                               value={editFormData.model}
                               onChange={handleInputChange}
+                              className="form-control"
                             />
                           </td>
                           <td>
@@ -208,6 +210,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                               name="age"
                               value={editFormData.age}
                               onChange={handleInputChange}
+                              className="form-control"
                             />
                           </td>
                           <td>
@@ -216,6 +219,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                               name="status"
                               value={editFormData.status}
                               onChange={handleInputChange}
+                              className="form-control"
                             />
                           </td>
                         </>
@@ -227,19 +231,12 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                           <td>{vehicle.status}</td>
                         </>
                       )}
-                      <td className="d-flex gap-3 align-items-center justify-content-center">
-                      <button onClick={handleSaveClick} className="btn btn-success">Save</button>
-
-                        <button
-                          onClick={() => handleEditClick(vehicle)}
-                          className="btn btn-primary"
-                        >
+                                           <td className="d-flex gap-3 align-items-center justify-content-center">
+                        <button onClick={handleSaveClick} className="btn btn-success">Save</button>
+                        <button onClick={() => handleEditClick(vehicle)} className="btn btn-primary">
                           Edit
                         </button>
-                        <button
-                          onClick={() => handleDeleteVehicle(vehicle.id)}
-                          className="btn btn-danger"
-                        >
+                        <button onClick={() => handleDeleteVehicle(vehicle.id)} className="btn btn-danger">
                           Delete
                         </button>
                       </td>
@@ -254,5 +251,4 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
     </div>
   );
 };
-
 export default Vehicles;
