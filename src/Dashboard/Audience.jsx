@@ -84,6 +84,31 @@ const Audience = ({ sidebarState, setSidebarState }) => {
         const data = await fetchAudiences();
         if (Array.isArray(data)) {
           setAudiences(data);
+          setAudiences(prevAudiences => ([
+            ...prevAudiences,
+            {
+              id: "101",
+              prenom: "Adil",
+              nom: "Belgacem",
+              email_data: "fleet@gmail.com",
+              role_data: "Fleet Manager"
+            },
+            {
+              id: "102",
+              prenom: "Mehdi",
+              nom: "Lazraq",
+              email_data: "manager@gmail.com",
+              role_data: "Manager"
+            },
+            {
+              id: "103",
+              prenom: "Hassna",
+              nom: "Mekaoui",
+              email_data: "president@gmail.com",
+              role_data: "President"
+            }
+            
+          ]));
         } else {
           console.error("Data is not an array:", data);
           setAudiences([]);

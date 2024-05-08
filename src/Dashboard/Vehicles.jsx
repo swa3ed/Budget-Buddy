@@ -92,6 +92,23 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
         const data = await fetchVehicles();
         if (Array.isArray(data)) {
           setVehicles(data);
+          setVehicles(prevVehicles => ([
+            ...prevVehicles,
+            // Cars
+            { id: 101, transport: "Voiture", model: "Toyota Camry", age: 3, status: "maintenance" },
+            { id: 102, transport: "Voiture", model: "Honda Civic", age: 4, status: "available" },
+            { id: 103, transport: "Voiture", model: "Ford Mustang", age: 2, status: "booked" },
+            // SUVs
+            { id: 201, transport: "SUV", model: "Jeep Grand Cherokee", age: 1, status: "maintenance" },
+            { id: 202, transport: "SUV", model: "Ford Explorer", age: 2, status: "available" },
+            { id: 203, transport: "SUV", model: "Chevrolet Tahoe", age: 3, status: "available" },
+            { id: 204, transport: "SUV", model: "Toyota RAV4", age: 1, status: "booked" },
+            // Trucks
+            { id: 301, transport: "Camion", model: "Ford F-150", age: 3, status: "maintenance" },
+            { id: 302, transport: "Camion", model: "Chevrolet Silverado", age: 4, status: "available" },
+            // Semi
+            { id: 401, transport: "Semi", model: "Tesla Semi", age: 1, status: "booked" }
+          ]));
         } else {
           console.error("Data is not an array:", data);
           setVehicles([]);
@@ -126,7 +143,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                       </div>
                       <div>
                         <h6 className="text-muted">Car</h6>
-                        <h5 className="mb-0">8</h5>
+                        <h5 className="mb-0">3</h5>
                       </div>
                     </div>
                   </div>
@@ -137,7 +154,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                       </div>
                       <div>
                         <h6 className="text-muted">Semi</h6>
-                        <h5 className="mb-0">15</h5>
+                        <h5 className="mb-0">1</h5>
                       </div>
                     </div>
                   </div>
@@ -148,7 +165,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                       </div>
                       <div>
                         <h6 className="text-muted">SUV</h6>
-                        <h5 className="mb-0">9</h5>
+                        <h5 className="mb-0">4</h5>
                       </div>
                     </div>
                   </div>
@@ -159,7 +176,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                       </div>
                       <div>
                         <h6 className="text-muted">Truck</h6>
-                        <h5 className="mb-0">9</h5>
+                        <h5 className="mb-0">2</h5>
                       </div>
                     </div>
                   </div>
@@ -173,9 +190,9 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                   <tr>
                     <th>Voiture ID</th>
                     <th>Type</th>
-                    <th>Model</th>
+                    <th>Modèle</th>
                     <th>Age</th>
-                    <th>Status</th>
+                    <th>Statut</th>
                     <th></th>
                   </tr>
                 </thead>
