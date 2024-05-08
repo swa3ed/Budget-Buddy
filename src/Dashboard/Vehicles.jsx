@@ -190,7 +190,7 @@ const Vehicles = ({ sidebarState, setSidebarState }) => {
                   <tr>
                     <th>Voiture ID</th>
                     <th>Type</th>
-                    <th>Modèlessss</th>
+                    <th>Modèle</th>
                     <th>Age</th>
                     <th>Statut</th>
                     <th></th>
