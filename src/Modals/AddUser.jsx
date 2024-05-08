@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { addAudience } from '../services/audienceService';
 
@@ -6,9 +6,10 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
     const [formData, setformData] = useState({
         firstName: '',
         lastName: '',
-        phone: '',
+        email: '',  // Added email to form data
+        role: '',
         status: '',
-        role: ''
+        username:''
     });
 
     const handleInputChange = (event) => {
@@ -22,9 +23,13 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
     const handleAddUser = async () => {
         try {
             const userData = {
-                ...formData,
-                username: formData.firstName + formData.lastName,  // Example if needed
-                email: formData.email  // Ensure this input is included if it's needed
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                email_data: formData.email,
+                role_data: formData.role,
+                username_data: formData.username,
+                status_data: formData.status,
+
             };
             const newUser = await addAudience(userData);
             if (newUser) {
@@ -37,6 +42,19 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
             alert('Failed to add user.');
         }
     };
+
+        useEffect(() => {
+        if (!show) {
+            setformData({
+                firstName: '',
+                lastName: '',
+                username: '',
+                email: '',
+                role: '',
+                status: ''
+            });
+        }
+    }, [show]);
 
     return (
         <Modal show={show} onHide={onHide} dialogClassName='showDialog' centered={true} size='lg'>
@@ -59,8 +77,8 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label>Phone Number</label>
-                            <input type="text" className="form-control" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="Phone" />
+                            <label>Username</label>
+                            <input type="text" className="form-control" name="username" value={formData.username} onChange={handleInputChange} placeholder="Username" />
                         </div>
                     </div>
                     <div className="col-md-6">
@@ -77,10 +95,21 @@ const AddUserModal = ({ show, onHide, setAudiences }) => {
                             </select>
                         </div>
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-6">
                         <div className="form-group">
-                            <label>Role</label>
-                            <input type="text" className="form-control" name="role" value={formData.role} onChange={handleInputChange} placeholder="Role" />
+                            <label>Status Choice</label>
+                            <select className="form-control" name="role" value={formData.role} onChange={handleInputChange}>
+                                <option value="">Select</option>
+                                <option value="Manager">Manager</option>
+                                <option value="User">User</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Email</label>
+                            <input type="text" className="form-control" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email" />
                         </div>
                     </div>
                 </div>

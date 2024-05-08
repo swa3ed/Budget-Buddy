@@ -1,49 +1,89 @@
-import axios from 'axios';
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
+/**
+ * Retrieve all audiences from local storage.
+ */
 export const fetchAudiences = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/users/users/`);
-        return response.data;  // Assuming the server responds with the array of vehicles
+        // Retrieve audiences from local storage
+        let audiences = JSON.parse(localStorage.getItem('audiences')) || [];
+       // let audiences;
+        return audiences;
     } catch (error) {
-        console.error('Error fetching audiences:', error);
+        console.error('Error fetching audiences from local storage:', error);
         throw error;
     }
 };
 
-
+/**
+ * Delete an audience from local storage.
+ * @param {number} id - Audience ID to delete.
+ */
 export const deleteAudience = async (id) => {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/users/users/${id}/`);
-        return response.status === 204;  // Assuming 204 No Content on successful deletion
+        // Retrieve audiences from local storage
+        let audiences = JSON.parse(localStorage.getItem('audiences')) || [];
+
+        // Filter out the audience with the given ID
+        audiences = audiences.filter(audience => audience.id !== id);
+
+        // Update local storage
+        localStorage.setItem('audiences', JSON.stringify(audiences));
+
+        return true;
     } catch (error) {
-        console.error('Error deleting vehicle:', error);
+        console.error('Error deleting audience from local storage:', error);
         throw error;
     }
 };
 
+/**
+ * Add a new audience to local storage.
+ * @param {object} userData - Data of the new audience to add.
+ */
 export const addAudience = async (userData) => {
-    
     try {
-        const response = await axios.post(`${API_BASE_URL}/users/users/`, userData);
-        return response.data;  // Assuming the server returns the added user data
+        // Retrieve the existing data from local storage
+        let audiences = JSON.parse(localStorage.getItem('audiences')) || [];
+
+        // Assign a new unique ID to the user
+        userData.id = audiences.length ? Math.max(...audiences.map(a => a.id)) + 1 : 1;
+
+        // Add the new user data to the array
+        audiences.push(userData);
+
+        // Save the updated array back to local storage
+        localStorage.setItem('audiences', JSON.stringify(audiences));
+
+        return Promise.resolve(userData);
     } catch (error) {
-        console.error('Error adding user:', error);
-        throw error;
+        console.error('Failed to add user to local storage:', error);
+        throw { message: "Failed to add user", error };
     }
 };
 
+/**
+ * Update an audience in local storage.
+ * @param {number} id - Audience ID to update.
+ * @param {object} data - Updated data.
+ */
 export const updateUser = async (id, data) => {
     try {
-        const response = await axios.put(`${API_BASE_URL}/users/users/${id}/`, data);
-        return response.data;  // This should return the updated user data if successful
+        // Retrieve audiences from local storage
+        let audiences = JSON.parse(localStorage.getItem('audiences')) || [];
+
+        // Find the audience with the given ID
+        const index = audiences.findIndex(audience => audience.id === id);
+
+        // Update the audience if found
+        if (index !== -1) {
+            audiences[index] = { ...audiences[index], ...data };
+            localStorage.setItem('audiences', JSON.stringify(audiences));
+
+            return Promise.resolve(audiences[index]);
+        } else {
+            throw new Error(`Audience with ID ${id} not found`);
+        }
     } catch (error) {
-        console.error('Error updating user:', error);
+        console.error('Error updating audience in local storage:', error);
         throw error;
     }
 };
-
-
-
-
