@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard/Dashboard';
 import Audience from './Dashboard/Audience';
 import Vehicles from './Dashboard/Vehicles';
-import Form from './Dashboard/Form';
+import Mission from './Dashboard/Mission';
 import Statistics from './Dashboard/Stats';
 import Login from './Components/Login/Login';
 import Logout from './Components/Logout/Logout';
@@ -41,9 +41,9 @@ function App() {
                         <Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} />
                     </PrivateRoute>
                 } />
-                <Route path="/form" element={
+                <Route path="/mission" element={
                     <PrivateRoute allowedRoles={['admin', 'manager']}>
-                        <Form sidebarState={sidebarState} setSidebarState={setSidebarState} setIsAuthenticated={setIsAuthenticated} />
+                        <Mission sidebarState={sidebarState} setSidebarState={setSidebarState} setIsAuthenticated={setIsAuthenticated} />
                     </PrivateRoute>
                 } />
                 <Route path="/stats" element={
