@@ -2,47 +2,53 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-const Piechart = () => {
-  const data = {
-    labels: ['Voitures', 'Semi', 'SUVs'],
-    datasets: [
-      {
-        label: 'Pourcentage Utilisation De Vehicules',
-        data: [40, 38, 22], // These should be your data points
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.5)',
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(255, 206, 86, 0.5)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)'
-        ],
-        borderWidth: 1,
-        cutout: '55%' // Adjust this value to change the size of the chart's inner hole
-      },
-    ],
+const Piechart = ({ data }) => {
+  const chartData = {
+    labels: data.map(item => item.category),
+    datasets: [{
+      label: 'Budget Distribution',
+      data: data.map(item => item.amount),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+    }]
+  };
+  if (!Array.isArray(data)) {
+    return null; // or return a loading indicator
   }
-
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: 'top',
       },
-      title: {
-        display: true,
-        text: 'Pourcentage Utilisation De Vehicules',
+      tooltip: {
+        mode: 'index',
+        intersect: false,
       },
-    },
-  }
+    }
+  };
 
   return (
-    <div style={{ width: '340px', height: '340px',  marginRight: '20px',backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px',    boxShadow: '0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05)' }}>
-  <Pie data={data} options={options} />
+    <div>
+      <h2>Budget Distribution</h2>
+      <Pie data={chartData} options={options} />
     </div>
-  )
-}
+  );
+};
 
 export default Piechart;

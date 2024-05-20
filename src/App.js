@@ -1,56 +1,46 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard/Dashboard';
-import Audience from './Dashboard/Audience';
-import Vehicles from './Dashboard/Vehicles';
-import Mission from './Dashboard/Mission';
-import Statistics from './Dashboard/Stats';
+import Balance from './Dashboard/Balance';
+import Expenses from './Dashboard/Expenses';
+import Transactions from './Dashboard/Transactions';
+import Subscription from './Dashboard/Subscription';
 import Login from './Components/Login/Login';
 import Logout from './Components/Logout/Logout';
 import Sidebar from './Layouts/Sidebar';
-import PrivateRoute from './PrivateRoute';
 import useResize from './useResize';
-import 'leaflet/dist/leaflet.css';
+import { useEffect } from 'react';
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('userToken'));
     const [sidebarState, setSidebarState] = useResize(false);
-
+    const [isAuthenticated, setIsAuthenticated] = useState(true); // Set to true by default for auto-login
     const handleLogout = () => {
-        localStorage.removeItem('userToken');
-        setIsAuthenticated(false);
+        setIsAuthenticated(false); // Allow logout functionality
     };
+    useEffect(() => {
+        const handleResize = () => {
+          if (window.innerWidth <= 950) {
+            setSidebarState(false);
+          }
+        };
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
+      }, []);
 
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
                 <Route path="/logout" element={<Logout handleLogout={handleLogout} />} />
-                <Route path="/" element={
-                    <PrivateRoute allowedRoles={['admin', 'manager', 'fleet_manager']}>
-                        <Dashboard sidebarState={sidebarState} setSidebarState={setSidebarState} />
-                    </PrivateRoute>
-                } />
-                <Route path="/audience" element={
-                    <PrivateRoute allowedRoles={['admin', 'manager']}>
-                        <Audience sidebarState={sidebarState} setSidebarState={setSidebarState} />
-                    </PrivateRoute>
-                } />
-                <Route path="/vehicles" element={
-                    <PrivateRoute allowedRoles={['admin', 'fleet_manager']}>
-                        <Vehicles sidebarState={sidebarState} setSidebarState={setSidebarState} />
-                    </PrivateRoute>
-                } />
-                <Route path="/mission" element={
-                    <PrivateRoute allowedRoles={['admin', 'manager']}>
-                        <Mission sidebarState={sidebarState} setSidebarState={setSidebarState} setIsAuthenticated={setIsAuthenticated} />
-                    </PrivateRoute>
-                } />
-                <Route path="/stats" element={
-                    <PrivateRoute allowedRoles={['admin']}>
-                        <Statistics sidebarState={sidebarState} setSidebarState={setSidebarState} />
-                    </PrivateRoute>
-                } />
+                <Route path="/" element={ <Sidebar sidebarState={sidebarState} setSidebarState={setSidebarState} isAuthenticated={isAuthenticated} /> } />
+                <Route path="/dashboard" element={ <Dashboard sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+                <Route path="/balance" element={ <Balance sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+                <Route path="/expenses" element={<Expenses sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+                <Route path="/transactions" element={ <Transactions sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
+                <Route path="/subscription" element={ <Subscription sidebarState={sidebarState} setSidebarState={setSidebarState} /> } />
             </Routes>
         </BrowserRouter>
     );

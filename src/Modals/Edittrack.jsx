@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-const EditMission = ({ show, onHide, onSave, missionToEdit }) => {
-    const [mission, setMission] = useState({
+const Edittrack = ({ show, onHide, onSave, trackToEdit }) => {
+    const [track, settrack] = useState({
         id: '',
         title: '',
         start_time: '',
@@ -13,18 +13,18 @@ const EditMission = ({ show, onHide, onSave, missionToEdit }) => {
         description: ''
     });
     const statusOptions = {
-        "En cours": "1",
-        "Arrivé": "2",
-        "En retard": "3",
-        "En attente": "4",
-        "Approuvé": "5",
-        "Rejeté": "6"
+        "Pending": "1",
+        "Done": "2",
+        "Late": "3",
+        "Waiting": "4",
+        "Approved": "5",
+        "Rejected": "6"
     };
     useEffect(() => {
-        if (missionToEdit) {
-            setMission(missionToEdit);
+        if (trackToEdit) {
+            settrack(trackToEdit);
         }
-    }, [missionToEdit]);
+    }, [trackToEdit]);
     const formatDate = (dateString) => {
         if (!dateString) return "";
         const date = new Date(dateString);
@@ -35,7 +35,7 @@ const EditMission = ({ show, onHide, onSave, missionToEdit }) => {
     };
 
     useEffect(() => {
-        if (missionToEdit) {
+        if (trackToEdit) {
             const formattedMission = {
                 ...missionToEdit,
                 start_time: formatDate(missionToEdit.start_time),
@@ -52,52 +52,52 @@ const EditMission = ({ show, onHide, onSave, missionToEdit }) => {
         if (name === "status") {
             const statusValue = value;
             console.log(statusValue);  
-            setMission(prevMission => ({ ...prevMission, [name]: statusValue }));
+            settrack(prevtrack => ({ ...prevtrack, [name]: statusValue }));
         } else {
-            setMission(prevMission => ({ ...prevMission, [name]: value }));
+            settrack(prevtrack => ({ ...prevtrack, [name]: value }));
         }
     };
 
     const handleSubmit = () => {
-        console.log("Saving mission:", mission);
-        onSave(mission);
+        console.log("Saving :", track);
+        onSave(track);
         onHide();
     };
 
     return (
         <Modal show={show} onHide={onHide} centered size="lg">
             <Modal.Header closeButton>
-                <Modal.Title>Modifier la mission</Modal.Title>
+                <Modal.Title>Modify</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form>
                     <div className="form-group">
-                        <label>Titre</label>
+                        <label>Title</label>
                         <input type="text" className="form-control" name="title" value={mission.title} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label>Heure de début</label>
+                        <label>Start</label>
                         <input type="datetime-local" className="form-control" name="start_time" value={mission.start_time} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label>Heure de fin</label>
+                        <label>End</label>
                         <input type="datetime-local" className="form-control" name="end_time" value={mission.end_time} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label>Statut</label>
+                        <label>Status</label>
                         <select className="form-select border-black" name="status" value={mission.status} onChange={handleChange}>
-                        <option value="">Statut</option>
+                        <option value="">Status</option>
                         {Object.keys(statusOptions).map(key => (
                             <option key={key} value={statusOptions[key]}>{key}</option>
                         ))}
                     </select>
                     </div>
                     <div className="form-group">
-                        <label>Heure d'arrivée prévue</label>
+                        <label>Time taken</label>
                         <input type="datetime-local" className="form-control" name="expected_arrival" value={mission.expected_arrival} onChange={handleChange} />
                     </div>
                     <div className="form-group">
-                        <label>ID du demandeur</label>
+                        <label>ID </label>
                         <input type="text" className="form-control" name="requester_id" value={mission.requester_id} onChange={handleChange} />
                     </div>
                     <div className="form-group">
@@ -107,11 +107,11 @@ const EditMission = ({ show, onHide, onSave, missionToEdit }) => {
                 </form>
             </Modal.Body>
             <Modal.Footer>
-                <button className="btn btn-secondary" onClick={onHide}>Annuler</button>
-                <button className="btn btn-primary" onClick={handleSubmit}>Enregistrer les modificationss</button>
+                <button className="btn btn-secondary" onClick={onHide}>Cancel</button>
+                <button className="btn btn-primary" onClick={handleSubmit}>Save</button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default EditMission;
+export default Edittrack;

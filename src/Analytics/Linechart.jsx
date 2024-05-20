@@ -6,8 +6,8 @@ const data = {
   labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Jui', 'Aout', 'Sep', 'Oct', 'Nov', 'Dec'], // X-axis labels
   datasets: [
     {
-      label: 'Distance Parcourue Par Les Camions',
-      data: [200, 300, 250, 400, 497, 350], // Data points for Y-axis
+      label: 'Expenses Each Month',
+      data: [100, 500, 1000, 2000, 3000, 2880], // Data points for Y-axis
       fill: true,
       backgroundColor: 'rgba(75,192,192,0.2)',
       borderColor: 'rgba(75,192,192,1)',
@@ -30,7 +30,7 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Distance Parcourue Par Les Camions',
+      text: 'Expense Each Month',
     },
     tooltip: {
       mode: 'index',
@@ -49,7 +49,7 @@ const options = {
       display: true,
       title: {
         display: true,
-        text: 'Km',
+        text: 'Dollars',
       },
     },
   },

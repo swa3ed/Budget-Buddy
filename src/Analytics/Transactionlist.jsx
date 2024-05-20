@@ -2,9 +2,9 @@ import React from 'react';
 import '../css/Servicelist.css'; // Make sure to create this CSS file and include it here
 
 const statusStyles = {
-  Done: 'green-status',
-  In_process: 'orange-status',
-  Not_started: 'red-status',
+  Cleared: 'green-status',
+  Pending: 'orange-status',
+  Not_Cleared: 'red-status',
 };
 
 const ServiceList = ({ services, label }) => {
@@ -16,8 +16,8 @@ const ServiceList = ({ services, label }) => {
           <tr>
             <th>ID</th>
             <th>Date</th>
-            <th>Service</th>
-            <th> ID Vehicule </th>
+            <th>Category</th>
+            <th> Amount </th>
             <th>Status</th>
           </tr>
         </thead>

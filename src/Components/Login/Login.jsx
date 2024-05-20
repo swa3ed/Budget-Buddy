@@ -37,7 +37,7 @@ const Login = () => {
     return (
         <div className="wrapper">
             <form onSubmit={handleSubmit}>
-                <h1>Smart Fleet</h1>
+                <h1>Budget Buddy</h1>
                 <div className="input-box">
                     <input
                         type="text"
